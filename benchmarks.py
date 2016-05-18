@@ -16,8 +16,9 @@ def F1(x):
 def F6(x):    
     s=sum(abs((x+.5))**2);
     return s
-# map the inputs to the function blocks
 
+
+# get the name, lower bound, upper bound and dim of the cost function
 def getFunctionDetails(a):
     
     # [name, lb, ub, dim]
