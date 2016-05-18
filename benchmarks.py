@@ -2,7 +2,7 @@
 """
 Created on Tue May 17 12:46:20 2016
 
-@author: hossam
+@author: Hossam Faris
 """
 
 import numpy
