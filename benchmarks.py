@@ -78,8 +78,9 @@ def F12(x):
     numpy.sum(Ufun(x,10,100,4));   
     return o;
     
-def F13(x):  
-     o=.1*((numpy.sin(3*math.pi*x[1]))**2+sum((x[0:dim-2]-1)**2*(1+(numpy.sin(3*math.pi*x[1:dim-1]))**2))+ 
+def F13(x): 
+    dim=len(x);
+    o=.1*((numpy.sin(3*math.pi*x[1]))**2+sum((x[0:dim-2]-1)**2*(1+(numpy.sin(3*math.pi*x[1:dim-1]))**2))+ 
     ((x[dim-1]-1)**2)*(1+(numpy.sin(2*math.pi*x[dim-1]))**2))+numpy.sum(Ufun(x,5,100,4));
     return o;
 # map the inputs to the function blocks
