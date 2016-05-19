@@ -10,6 +10,7 @@ import numpy
 import math
 from colorama import Fore, Back, Style
 from solution import solution
+import time
 
 
 #def checkBounds(s,lb,ub):
@@ -25,7 +26,7 @@ from solution import solution
 
 
 
-def PSO(objf,ub,lb,dim,PopSize,iters):
+def PSO(objf,lb,ub,dim,PopSize,iters):
 
     # PSO parameters
     
@@ -40,6 +41,7 @@ def PSO(objf,ub,lb,dim,PopSize,iters):
 #    lb=-10
 #    ub=10
 #    
+    s=solution()
     
     
     ######################## Initializations
@@ -62,11 +64,10 @@ def PSO(objf,ub,lb,dim,PopSize,iters):
     ############################################
     print("PSO is optimizing  \""+objf.__name__+"\"")    
     
+    timerStart=time.time() 
+    s.startTime=time.strftime("%Y-%m-%d-%H-%M-%S")
+    
     for l in range(0,iters):
-        
-        
-            
-        
         for i in range(0,PopSize):
             #pos[i,:]=checkBounds(pos[i,:],lb,ub)
             pos[i,:]=numpy.clip(pos[i,:], lb, ub)
@@ -102,8 +103,11 @@ def PSO(objf,ub,lb,dim,PopSize,iters):
       
         if (l%1==0):
                print(['At iteration '+ str(l+1)+ ' the best fitness is '+ str(gBestScore)]);
-    s=solution()
+    timerEnd=time.time()  
+    s.endTime=time.strftime("%Y-%m-%d-%H-%M-%S")
+    s.executionTime=timerEnd-timerStart
     s.convergence=convergence_curve
+    s.optimizer="PSO"
     return s
          
     
