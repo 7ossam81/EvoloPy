@@ -7,6 +7,8 @@ Created on Tue May 17 15:50:25 2016
 import PSO as pso
 import benchmarks
 import csv
+import numpy
+import time
 
 
 def selector(algo,func_details,popSize,Iter):
@@ -32,11 +34,11 @@ MFO = False
 
 # Select benchmark function
 F1=True
-F2=True
-F3=True
-F4=True
-F5=True
-F6=True
+F2=False
+F3=False
+F4=False
+F5=False
+F6=False
 
 
 optimizer=[PSO, GWO, SCA, WOA, MVO, MFO]
@@ -49,11 +51,13 @@ NumOfRuns=1
 
 # Select general parameters for all optimizers (population size, number of iterations)
 PopulationSize = 50
-Iterations= 100
+Iterations= 1000
 
 #Export results ?
 Export=True
-
+#ExportToFile="YourResultsAreHere.csv"
+#Automaticly generated name by date and time
+ExportToFile="experiment"+time.strftime("%Y-%m-%d-%H-%M-%S")+".csv" 
 
 for i in range (0, len(optimizer)):
     for j in range (0, len(benchmarkfunc)):
@@ -62,9 +66,10 @@ for i in range (0, len(optimizer)):
                 func_details=benchmarks.getFunctionDetails(j)
                 x=selector(i,func_details,PopulationSize,Iterations)
                 if(Export==True):
-                    with open('convergence.csv', 'a',newline='\n') as out:
+                    with open(ExportToFile, 'a',newline='\n') as out:
                         writer = csv.writer(out,delimiter=',')
-                        writer.writerow(x.convergence)
+                        a=numpy.concatenate([[x.optimizer,x.startTime,x.endTime,x.executionTime,"Convg"],x.convergence])
+                        writer.writerow(a)
               
                     out.close()
             
