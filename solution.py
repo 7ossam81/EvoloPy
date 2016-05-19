@@ -10,3 +10,7 @@ class solution:
         self.best = 0
         self.bestIndividual=[]
         self.convergence = []
+        self.optimizer=""
+        self.startTime=0
+        self.endTime=0
+        self.executionTime=0
