@@ -13,15 +13,6 @@ from solution import solution
 import time
 
 
-#def checkBounds(s,lb,ub):
-#
-#  for i in range(0,len(s)):
-#      if s[i]<lb:
-#          s[i]=lb
-#      elif s[i]>ub:
-#          s[i]=ub
-#      
-#  return s
 
 
 

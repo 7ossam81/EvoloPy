@@ -5,6 +5,7 @@ Created on Tue May 17 15:50:25 2016
 @author: hossam
 """
 import PSO as pso
+import MVO as mvo
 import benchmarks
 import csv
 import numpy
@@ -18,30 +19,30 @@ def selector(algo,func_details,popSize,Iter):
     dim=func_details[3]
     
     if(algo==0):
-        #x=pso.PSO()
-        print(function_name)
         x=pso.PSO(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
+    if(algo==1):
+        x=mvo.MVO(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     return x
     
     
 # Select optimizers
 PSO= True
-GWO= False
-SCA= False
-WOA= False
-MVO= False
-MFO = False
+MVO= True
+#SCA= False
+#WOA= False
+#GWO= False
+#MFO = False
 
 # Select benchmark function
 F1=True
-F2=False
+F2=True
 F3=False
 F4=False
 F5=False
 F6=False
 
 
-optimizer=[PSO, GWO, SCA, WOA, MVO, MFO]
+optimizer=[PSO, MVO, SCA, WOA, GWO, MFO]
 benchmarkfunc=[F1,F2,F3,F4,F5,F6] 
         
 # Select number of repetitions for each experiment. 
@@ -51,7 +52,7 @@ NumOfRuns=1
 
 # Select general parameters for all optimizers (population size, number of iterations)
 PopulationSize = 50
-Iterations= 1000
+Iterations= 500
 
 #Export results ?
 Export=True
@@ -68,7 +69,7 @@ for i in range (0, len(optimizer)):
                 if(Export==True):
                     with open(ExportToFile, 'a',newline='\n') as out:
                         writer = csv.writer(out,delimiter=',')
-                        a=numpy.concatenate([[x.optimizer,x.startTime,x.endTime,x.executionTime,"Convg"],x.convergence])
+                        a=numpy.concatenate([[x.optimizer,x.startTime,x.endTime,x.executionTime,"Cnvg"],x.convergence])
                         writer.writerow(a)
               
                     out.close()
