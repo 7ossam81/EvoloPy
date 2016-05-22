@@ -8,4 +8,6 @@ This is a simple project implementing classical and recent nature-inspired metah
 
 Particle Swarm Optimization (PSO) (basic)
 
-Multi-Verse Optimizer
+Multi-Verse Optimizer (MVO)
+
+Grey Wolf Optimizer (GWO)
