@@ -6,6 +6,7 @@ Created on Tue May 17 15:50:25 2016
 """
 import PSO as pso
 import MVO as mvo
+import GWO as gwo
 import benchmarks
 import csv
 import numpy
@@ -22,27 +23,29 @@ def selector(algo,func_details,popSize,Iter):
         x=pso.PSO(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     if(algo==1):
         x=mvo.MVO(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
+    if(algo==2):
+        x=gwo.GWO(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     return x
     
     
 # Select optimizers
-PSO= True
-MVO= True
+PSO= False
+MVO= False
+GWO = True
 #SCA= False
 #WOA= False
-#GWO= False
 #MFO = False
 
 # Select benchmark function
 F1=True
-F2=True
+F2=False
 F3=False
 F4=False
 F5=False
 F6=False
 
 
-optimizer=[PSO, MVO, SCA, WOA, GWO, MFO]
+optimizer=[PSO, MVO, GWO]
 benchmarkfunc=[F1,F2,F3,F4,F5,F6] 
         
 # Select number of repetitions for each experiment. 
