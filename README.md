@@ -11,3 +11,5 @@ Particle Swarm Optimization (PSO) (basic)
 Multi-Verse Optimizer (MVO)
 
 Grey Wolf Optimizer (GWO)
+
+Moth Flame Optimization (MFO)
