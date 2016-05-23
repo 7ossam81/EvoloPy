@@ -99,6 +99,8 @@ def PSO(objf,lb,ub,dim,PopSize,iters):
     s.executionTime=timerEnd-timerStart
     s.convergence=convergence_curve
     s.optimizer="PSO"
+    s.objfname=objf.__name__
+
     return s
          
     

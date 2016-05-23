@@ -11,6 +11,7 @@ class solution:
         self.bestIndividual=[]
         self.convergence = []
         self.optimizer=""
+        self.objfname=""
         self.startTime=0
         self.endTime=0
         self.executionTime=0
