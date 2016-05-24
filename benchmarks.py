@@ -48,7 +48,9 @@ def F7(x):
    dim=len(x);
    print(dim)
    w=[i for i in range(len(x))]
-   o=numpy.sum(w*(x**4))+uniform(0, 1);
+   for i in range(0,dim):
+        w[i]=i+1;
+   o=numpy.sum(w*(x**4));
    return o;
 
 def F8(x):
