@@ -33,13 +33,13 @@ def selector(algo,func_details,popSize,Iter):
     
 # Select optimizers
 PSO= False
-MVO= False
+MVO= True
 GWO = False
-MFO= True
+MFO= False
 
 
 # Select benchmark function
-F1=True
+F1=False
 F2=False
 F3=False
 F4=True
@@ -61,6 +61,8 @@ Iterations= 500
 
 #Export results ?
 Export=True
+
+
 #ExportToFile="YourResultsAreHere.csv"
 #Automaticly generated name by date and time
 ExportToFile="experiment"+time.strftime("%Y-%m-%d-%H-%M-%S")+".csv" 
@@ -68,21 +70,32 @@ ExportToFile="experiment"+time.strftime("%Y-%m-%d-%H-%M-%S")+".csv"
 # Check if it works at least once
 Flag=False
 
+# CSV Header for for the cinvergence 
+CnvgHeader=[]
+
+for l in range(0,Iterations):
+	CnvgHeader.append("Iter"+str(l+1))
+
+
 for i in range (0, len(optimizer)):
     for j in range (0, len(benchmarkfunc)):
-        if((optimizer[i]==True) and (benchmarkfunc[j]==True)): 
+        if((optimizer[i]==True) and (benchmarkfunc[j]==True)): # start experiment if an optimizer and an objective function is selected
             for k in range (0,NumOfRuns):
-                Flag=True # at least one experiment
+                
                 func_details=benchmarks.getFunctionDetails(j)
                 x=selector(i,func_details,PopulationSize,Iterations)
                 if(Export==True):
                     with open(ExportToFile, 'a',newline='\n') as out:
                         writer = csv.writer(out,delimiter=',')
-                        a=numpy.concatenate([[x.optimizer,x.objfname,x.startTime,x.endTime,x.executionTime,"Cnvg"],x.convergence])
+                        if (Flag==False): # just one time to write the header of the CSV file
+                            header= numpy.concatenate([["Optimizer","objfname","startTime","EndTime","ExecutionTime"],CnvgHeader])
+                            writer.writerow(header)
+                        a=numpy.concatenate([[x.optimizer,x.objfname,x.startTime,x.endTime,x.executionTime],x.convergence])
                         writer.writerow(a)
-              
                     out.close()
-if (Flag==False):
+                Flag=True # at least one experiment
+                
+if (Flag==False): # Faild to run at least one experiment
     print("No Optomizer or Cost function is selected. Check lists of available optimizers and cost functions") 
         
         
