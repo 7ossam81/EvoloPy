@@ -24,11 +24,13 @@ def F2(x):
     return o;     
            
 def F3(x):
-    dim=len(x);
+    dim=len(x)+1;
     o=0;
-    for i in range(0,dim):
-        o=o+numpy.sum(x[0:i])**2; 
-        return o; 
+    print x
+    for i in range(1,dim):
+        o=o+(numpy.sum(x[0:i]))**2; 
+    return o; 
+    
 def F4(x):
     o=max(abs(x));
     return o;     
