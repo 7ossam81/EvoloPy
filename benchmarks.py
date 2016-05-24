@@ -50,7 +50,7 @@ def F7(x):
    w=[i for i in range(len(x))]
    for i in range(0,dim):
         w[i]=i+1;
-   o=numpy.sum(w*(x**4));
+   o=numpy.sum(w*(x**4))+numpy.random.uniform(0,1);
    return o;
 
 def F8(x):
