@@ -21,6 +21,36 @@ sudo apt-get install python3-numpy python3-scipy liblapack-dev libatlas-base-dev
 - Clone the Git repository  
 git clone https://github.com/7ossam81/EvoloPy.git
 
+
+##Quick Use
+EvoloPy toolbox contains twenty three benchamrks (F1-F23). The main file is the optimizer.py, which considered the driver of the toolbox. In the optimizer.py you can setup your experiment by selecting the optmizers, the benchmarks, number of runs, and number of iterations. 
+The following is a sample exmaple to use the EvoloPy toolbox.  
+-  To choose PSO optimizer for your experiment, change the PSO flag to true and others to false.
+# Select optimizers  
+PSO= True  
+MVO= False  
+GWO = False  
+MFO= False  
+CS= False    
+...
+
+After that:  
+Select benchmark function  
+F1=True  
+F2=False  
+F3=False  
+F4=False  
+F5=False  
+F6=False  
+....  
+
+Change NumOfRuns, PopulationSize, and Iterations variables as you want:  
+NumOfRuns=10  
+PopulationSize = 50  
+Iterations= 1000  
+
+Now your experiment is ready to run. Enjoy!
+
 ##Contribute
 - Issue Tracker: https://github.com/7ossam81/EvoloPy/issues  
 - Source Code: https://github.com/7ossam81/EvoloPy
