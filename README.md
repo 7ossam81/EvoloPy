@@ -29,4 +29,4 @@ git clone https://github.com/7ossam81/EvoloPy.git
 Use the issue tracker.
 
 ##License
-The project is licensed under the BSD license.  See https://github.com/7ossam81/EvoloPy/LICENSE.txt for details.
+The project is licensed under the BSD license.  See https://github.com/7ossam81/EvoloPy/blob/master/LICENSE.txt for details.
