@@ -13,3 +13,5 @@ Multi-Verse Optimizer (MVO)
 Grey Wolf Optimizer (GWO)
 
 Moth Flame Optimization (MFO)
+
+Cuckoo Search (CS)
