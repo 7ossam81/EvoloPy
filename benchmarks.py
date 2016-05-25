@@ -112,6 +112,20 @@ def F18(x):
     return o
 # map the inputs to the function blocks
 
+
+def F21(x):
+    aSH=[[4,4,4,4],[1,1,1,1],[8,8,8,8],[6,6,6,6],[3,7,3,7],[2,9,2,9],[5,5,3,3],[8,1,8,1],[6,2,6,2],[7,3.6,7,3.6]];
+    cSH=[.1,.2,.2,.4,.4,.6,.3,.7,.5,.5];
+    aSH=numpy.asarray(aSH);
+    cSH=numpy.asarray(cSH);
+    fit=0;
+    for i in range(0,4):
+      v=numpy.matrix(L-aSH[i,:])
+      fit=fit-((v)*(v.T)+cSH[i])**(-1);
+    o=fit.item(0);
+    return o
+    
+
 def getFunctionDetails(a):
     
     # [name, lb, ub, dim]
