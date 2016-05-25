@@ -8,6 +8,7 @@ import PSO as pso
 import MVO as mvo
 import GWO as gwo
 import MFO as mfo
+import CS as cs
 import benchmarks
 import csv
 import numpy
@@ -28,26 +29,29 @@ def selector(algo,func_details,popSize,Iter):
         x=gwo.GWO(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     if(algo==3):
         x=mfo.MFO(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
+    if(algo==4):
+        x=cs.CS(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     return x
     
     
 # Select optimizers
 PSO= False
-MVO= True
+MVO= False
 GWO = False
 MFO= False
+CS= True
 
 
 # Select benchmark function
-F1=False
+F1=True
 F2=False
 F3=False
-F4=True
+F4=False
 F5=False
 F6=False
 
 
-optimizer=[PSO, MVO, GWO, MFO]
+optimizer=[PSO, MVO, GWO, MFO, CS]
 benchmarkfunc=[F1,F2,F3,F4,F5,F6] 
         
 # Select number of repetitions for each experiment. 
@@ -57,7 +61,7 @@ NumOfRuns=2
 
 # Select general parameters for all optimizers (population size, number of iterations)
 PopulationSize = 50
-Iterations= 500
+Iterations= 1000
 
 #Export results ?
 Export=True
