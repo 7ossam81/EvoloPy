@@ -98,7 +98,10 @@ def F15(x):
     bK = 1/bK;  
     fit=numpy.sum((aK-((L[0]*(bK**2+L[1]*bK))/(bK**2+L[2]*bK+L[3])))**2);
     return fit
-    
+
+def F16(x):  
+     o=4*(L[0]**2)-2.1*(L[0]**4)+(L[0]**6)/3+L[0]*L[1]-4*(L[1]**2)+4*(L[1]**4);
+     return o
 # map the inputs to the function blocks
 
 def getFunctionDetails(a):
