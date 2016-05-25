@@ -102,6 +102,10 @@ def F15(x):
 def F16(x):  
      o=4*(L[0]**2)-2.1*(L[0]**4)+(L[0]**6)/3+L[0]*L[1]-4*(L[1]**2)+4*(L[1]**4);
      return o
+
+def F17(x):  
+    o=(L[1]-(L[0]**2)*5.1/(4*(numpy.pi**2))+5/numpy.pi*L[0]-6)**2+10*(1-1/(8*numpy.pi))*numpy.cos(L[0])+10;
+    return o
 # map the inputs to the function blocks
 
 def getFunctionDetails(a):
