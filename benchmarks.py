@@ -14,6 +14,10 @@ def prod( it ):
     for n in it:
         p *= n
     return p
+
+def Ufun(x,a,k,m):
+    y=k*((x-a)**m)*(x>a)+k*((-x-a)**m)*(x<(-a));
+    return y
     
 def F1(x):
     s=numpy.sum(x**2);
@@ -85,6 +89,17 @@ def F13(x):
     o=.1*((numpy.sin(3*math.pi*x[1]))**2+sum((x[0:dim-2]-1)**2*(1+(numpy.sin(3*math.pi*x[1:dim-1]))**2))+ 
     ((x[dim-1]-1)**2)*(1+(numpy.sin(2*math.pi*x[dim-1]))**2))+numpy.sum(Ufun(x,5,100,4));
     return o;
+    
+
+def F15(x):  
+    aK=[.1957,.1947,.1735,.16,.0844,.0627,.0456,.0342,.0323,.0235,.0246];
+    bK=[.25,.5,1,2,4,6,8,10,12,14,16];
+    aK=numpy.asarray(aK);
+    bK=numpy.asarray(bK);
+    bK = 1/bK;  
+    fit=numpy.sum((aK-((L[0]*(bK**2+L[1]*bK))/(bK**2+L[2]*bK+L[3])))**2);
+    return fit
+    
 # map the inputs to the function blocks
 
 def getFunctionDetails(a):
