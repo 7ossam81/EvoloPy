@@ -23,10 +23,11 @@ git clone https://github.com/7ossam81/EvoloPy.git
 
 
 ##Quick Use
-EvoloPy toolbox contains twenty three benchamrks (F1-F23). The main file is the optimizer.py, which considered the driver of the toolbox. In the optimizer.py you can setup your experiment by selecting the optmizers, the benchmarks, number of runs, and number of iterations. 
+EvoloPy toolbox contains twenty three benchamrks (F1-F23). The main file is the optimizer.py, which considered the driver of the toolbox. In the optimizer.py you can setup your experiment by selecting the optmizers, the benchmarks, number of runs, number of iterations, and population size. 
 The following is a sample exmaple to use the EvoloPy toolbox.  
 To choose PSO optimizer for your experiment, change the PSO flag to true and others to false.  
-# Select optimizers  
+
+Select optimizers:    
 PSO= True  
 MVO= False  
 GWO = False  
@@ -34,8 +35,7 @@ MFO= False
 CS= False    
 ...
 
-After that:  
-Select benchmark function  
+After that, Select benchmark function:  
 F1=True  
 F2=False  
 F3=False  
