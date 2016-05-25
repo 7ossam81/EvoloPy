@@ -4,10 +4,10 @@ The EvoloPy toolbox provides classical and recent nature-inspired metaheuristic 
 
 
 ##Features
-Five nature-inspired metaheuristic optimizers were implemented.
-The implimentation uses the fast array manipulation using NumPy.
-Matrix support using SciPy's package.
-More optimizers is comming soon.
+⋅⋅*Five nature-inspired metaheuristic optimizers were implemented.
+⋅⋅*The implimentation uses the fast array manipulation using NumPy.
+⋅⋅*Matrix support using SciPy's package.
+⋅⋅*More optimizers is comming soon.
 
 ##Installation
 Python 3.xx is requiered.
