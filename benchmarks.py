@@ -30,7 +30,6 @@ def F2(x):
 def F3(x):
     dim=len(x)+1;
     o=0;
-    print x
     for i in range(1,dim):
         o=o+(numpy.sum(x[0:i]))**2; 
     return o; 
@@ -50,7 +49,7 @@ def F6(x):
 
 def F7(x):
    dim=len(x);
-   print(dim)
+
    w=[i for i in range(len(x))]
    for i in range(0,dim):
         w[i]=i+1;
