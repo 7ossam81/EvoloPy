@@ -9,6 +9,7 @@ import MVO as mvo
 import GWO as gwo
 import MFO as mfo
 import CS as cs
+import BAT as bat
 import benchmarks
 import csv
 import numpy
@@ -31,6 +32,8 @@ def selector(algo,func_details,popSize,Iter):
         x=mfo.MFO(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     if(algo==4):
         x=cs.CS(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
+    if(algo==5):
+        x=bat.BAT(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     return x
     
     
@@ -39,7 +42,8 @@ PSO= False
 MVO= False
 GWO = False
 MFO= False
-CS= True
+CS= False
+BAT=True
 
 
 # Select benchmark function
@@ -49,10 +53,24 @@ F3=False
 F4=False
 F5=False
 F6=False
+F7=False
+F8=False
+F9=False
+F10=False
+F11=False
+F12=False
+F13=False
+F14=False
+F15=False
+F16=False
+F17=False
+F18=False
+F19=False
 
 
-optimizer=[PSO, MVO, GWO, MFO, CS]
-benchmarkfunc=[F1,F2,F3,F4,F5,F6] 
+
+optimizer=[PSO, MVO, GWO, MFO, CS, BAT]
+benchmarkfunc=[F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12,F13,F14,F15,F16,F17,F18,F19] 
         
 # Select number of repetitions for each experiment. 
 # To obtain meaningful statistical results, usually 30 independent runs 
