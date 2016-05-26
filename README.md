@@ -58,5 +58,4 @@ Now your experiment is ready to run. Enjoy!
 ##Support
 Use the issue tracker.
 
-##License
-The project is licensed under the BSD license.  See https://github.com/7ossam81/EvoloPy/blob/master/LICENSE.txt for details.
+
