@@ -10,6 +10,7 @@ import GWO as gwo
 import MFO as mfo
 import CS as cs
 import BAT as bat
+import WOA as woa
 import benchmarks
 import csv
 import numpy
@@ -34,6 +35,8 @@ def selector(algo,func_details,popSize,Iter):
         x=cs.CS(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     if(algo==5):
         x=bat.BAT(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
+    if(algo==6):
+        x=woa.WOA(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     return x
     
     
@@ -43,7 +46,8 @@ MVO= False
 GWO = False
 MFO= False
 CS= False
-BAT=True
+BAT= False
+WOA= True
 
 
 # Select benchmark function
@@ -69,7 +73,7 @@ F19=False
 
 
 
-optimizer=[PSO, MVO, GWO, MFO, CS, BAT]
+optimizer=[PSO, MVO, GWO, MFO, CS, BAT, WOA]
 benchmarkfunc=[F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12,F13,F14,F15,F16,F17,F18,F19] 
         
 # Select number of repetitions for each experiment. 
