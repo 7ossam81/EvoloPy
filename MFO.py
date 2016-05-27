@@ -81,9 +81,7 @@ def MFO(objf,lb,ub,dim,N,Max_iteration):
             I=numpy.argsort(Moth_fitness)
             
             sorted_population=Moth_pos[I,:]
-            
-            for newindex in range(0,N):
-                 sorted_population[newindex,:]=numpy.array(Moth_pos[I[newindex],:])   
+               
             
             #Update the flames
             best_flames=sorted_population;
