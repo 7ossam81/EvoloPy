@@ -5,13 +5,13 @@ The EvoloPy toolbox provides classical and recent nature-inspired metaheuristic 
 
 ##Features
 - Six nature-inspired metaheuristic optimizers were implemented.
-- The implimentation uses the fast array manipulation using NumPy.
-- Matrix support using SciPy's package.
+- The implimentation uses the fast array manipulation using `NumPy`.
+- Matrix support using `SciPy`'s package.
 - More optimizers is comming soon.
 
 ##Installation
 - Python 3.xx is requiered.
-- To use this toolbox, NumPy and SciPy must be installed on your computer. 
+- To use this toolbox, `NumPy` and `SciPy` must be installed on your computer. 
 - Please have a look at their documentation to get them installed.
 - If you are installing EvoloPy Toolbox onto Windows, please Install Anaconda from here https://www.continuum.io/downloads, which is the leading open data science platform powered by Python.
 - If you are installing onto Ubuntu or Debian and using Python 3 then this will pull in all the dependencies:  
@@ -19,14 +19,14 @@ sudo apt-get install python3-numpy python3-scipy liblapack-dev libatlas-base-dev
 
 ##GitHub  
 - Clone the Git repository  
-git clone https://github.com/7ossam81/EvoloPy.git
+`git clone https://github.com/7ossam81/EvoloPy.git`
 
 
 ##Quick Use
 EvoloPy toolbox contains twenty three benchamrks (F1-F23). The main file is the optimizer.py, which considered the interface of the toolbox. In the optimizer.py you can setup your experiment by selecting the optmizers, the benchmarks, number of runs, number of iterations, and population size. 
 The following is a sample exmaple to use the EvoloPy toolbox.  
 To choose PSO optimizer for your experiment, change the PSO flag to true and others to false.  
-
+```
 Select optimizers:    
 PSO= True  
 MVO= False  
@@ -34,8 +34,9 @@ GWO = False
 MFO= False  
 CS= False    
 ...
-
-After that, Select benchmark function:  
+```
+After that, Select benchmark function:
+```
 F1=True  
 F2=False  
 F3=False  
@@ -43,11 +44,14 @@ F4=False
 F5=False  
 F6=False  
 ....  
+```
 
 Change NumOfRuns, PopulationSize, and Iterations variables as you want:  
+```
 NumOfRuns=10  
 PopulationSize = 50  
-Iterations= 1000  
+Iterations= 1000
+```
 
 Now your experiment is ready to run. Enjoy!
 
