@@ -10,21 +10,34 @@ The EvoloPy toolbox provides classical and recent nature-inspired metaheuristic 
 - More optimizers is comming soon.
 
 ##Installation
-- Python 3.xx is requiered.
-- To use this toolbox, `NumPy` and `SciPy` must be installed on your computer. 
-- Please have a look at their documentation to get them installed.
+- Python 3.xx is required.
+
+Run
+
+    pip3 install -r requirements.txt
+
+(possibly with `sudo`)
+
+That command above will install  `sklearn`, `NumPy` and `SciPy` for
+you.
+
 - If you are installing EvoloPy Toolbox onto Windows, please Install Anaconda from here https://www.continuum.io/downloads, which is the leading open data science platform powered by Python.
-- If you are installing onto Ubuntu or Debian and using Python 3 then this will pull in all the dependencies:  
-sudo apt-get install python3-numpy python3-scipy liblapack-dev libatlas-base-dev libgsl0-dev fftw-dev libglpk-dev libdsdp-dev
+- If you are installing onto Ubuntu or Debian and using Python 3 then
+  this will pull in all the dependencies from the repositories:
+  
+      sudo apt-get install python3-numpy python3-scipy liblapack-dev libatlas-base-dev libgsl0-dev fftw-dev libglpk-dev libdsdp-dev
 
-##GitHub  
-- Clone the Git repository  
-`git clone https://github.com/7ossam81/EvoloPy.git`
+##Get the source
+
+Clone the Git repository from GitHub
+
+    git clone https://github.com/7ossam81/EvoloPy.git
 
 
-##Quick Use
+##Quick User Guide
+
 EvoloPy toolbox contains twenty three benchamrks (F1-F23). The main file is the optimizer.py, which considered the interface of the toolbox. In the optimizer.py you can setup your experiment by selecting the optmizers, the benchmarks, number of runs, number of iterations, and population size. 
-The following is a sample exmaple to use the EvoloPy toolbox.  
+The following is a sample example to use the EvoloPy toolbox.  
 To choose PSO optimizer for your experiment, change the PSO flag to true and others to false.  
 ```
 Select optimizers:    
@@ -60,6 +73,7 @@ Now your experiment is ready to run. Enjoy!
 - Source Code: https://github.com/7ossam81/EvoloPy
 
 ##Support
-Use the issue tracker.
+
+Use the [issue tracker](https://github.com/7ossam81/EvoloPy/issues). 
 
 
