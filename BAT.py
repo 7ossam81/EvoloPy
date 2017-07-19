@@ -35,7 +35,7 @@ def BAT(objf,lb,ub,dim,N,Max_iteration):
     # Initialize the population/solutions
     Sol=numpy.random.rand(n,d)*(ub-lb)+lb
     S=numpy.zeros((n,d))
-    S=Sol
+    S=numpy.copy(Sol)
     Fitness=numpy.zeros(n)
     
     
@@ -80,7 +80,7 @@ def BAT(objf,lb,ub,dim,N,Max_iteration):
           
           # Update if the solution improves
           if ((Fnew<=Fitness[i]) and (random.random()<A) ):
-                Sol[i,:]=S[i,:]
+                Sol[i,:]=numpy.copy(S[i,:])
                 Fitness[i]=Fnew;
            
     
