@@ -38,7 +38,7 @@ def WOA(objf,lb,ub,dim,SearchAgents_no,Max_iter):
     ############################
     s=solution()
 
-    print("MFO is optimizing  \""+objf.__name__+"\"")    
+    print("WOA is optimizing  \""+objf.__name__+"\"")    
 
     timerStart=time.time() 
     s.startTime=time.strftime("%Y-%m-%d-%H-%M-%S")
