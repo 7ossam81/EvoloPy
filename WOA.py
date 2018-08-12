@@ -118,6 +118,8 @@ def WOA(objf,lb,ub,dim,SearchAgents_no,Max_iter):
     s.convergence=convergence_curve
     s.optimizer="WOA"   
     s.objfname=objf.__name__
+    s.best = Leader_score
+    s.bestIndividual = Leader_pos
     
     
     
