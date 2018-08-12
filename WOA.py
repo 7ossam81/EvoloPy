@@ -68,7 +68,7 @@ def WOA(objf,lb,ub,dim,SearchAgents_no,Max_iter):
         
         a=2-t*((2)/Max_iter); # a decreases linearly fron 2 to 0 in Eq. (2.3)
         
-        # a2 linearly dicreases from -1 to -2 to calculate t in Eq. (3.12)
+        # a2 linearly decreases from -1 to -2 to calculate t in Eq. (3.12)
         a2=-1+t*((-1)/Max_iter);
         
         # Update the Position of search agents 
