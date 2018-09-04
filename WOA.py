@@ -61,7 +61,7 @@ def WOA(objf,lb,ub,dim,SearchAgents_no,Max_iter):
             # Update the leader
             if fitness<Leader_score: # Change this to > for maximization problem
                 Leader_score=fitness; # Update alpha
-                Leader_pos=Positions[i,:]
+                Leader_pos=Positions[i,:].copy() # copy current whale position into the leader position
             
             
         
