@@ -13,6 +13,7 @@ import BAT as bat
 import WOA as woa
 import FFA as ffa
 import SSA as ssa
+import GA as ga
 import benchmarks
 import csv
 import numpy
@@ -43,7 +44,10 @@ def selector(algo,func_details,popSize,Iter):
         x=ffa.FFA(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     if(algo==8):
         x=ssa.SSA(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
+    if(algo==9):
+        x=ga.GA(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     return x
+    
     
     
 # Select optimizers
@@ -55,7 +59,8 @@ CS= False
 BAT= False
 WOA= False
 FFA=False
-SSA=True
+SSA=False
+GA=True
 
 
 # Select benchmark function
@@ -81,7 +86,7 @@ F19=False
 
 
 
-optimizer=[PSO, MVO, GWO, MFO, CS, BAT, WOA, FFA, SSA]
+optimizer=[PSO, MVO, GWO, MFO, CS, BAT, WOA, FFA, SSA, GA]
 benchmarkfunc=[F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12,F13,F14,F15,F16,F17,F18,F19] 
         
 # Select number of repetitions for each experiment. 
