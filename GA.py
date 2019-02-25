@@ -309,7 +309,7 @@ def GA(objf,lb,ub,dim,PopSize,iters):
                 
             if(bestScore>fitness):
                 bestScore=fitness
-                bestIndividual=ga[i,:]
+                bestIndividual=numpy.copy(ga[i,:])
         
         #Apply evolutionary operators to chromosomes
         ga = runOperators(ga, scores, bestIndividual, bestScore, cp, mp, PopSize, lb, ub) 
