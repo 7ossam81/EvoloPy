@@ -103,8 +103,8 @@ def elitism(population, scores, bestIndividual, bestScore):
     
     #replace worst cromosome with best one from previous generation if its fitness is less than the other
     if scores[worstFitnessId] > bestScore:
-        population[worstFitnessId] = bestIndividual
-        scores[worstFitnessId] = bestScore
+       population[worstFitnessId] = numpy.copy(bestIndividual)
+       scores[worstFitnessId] = numpy.copy(bestScore)
     
     return population, scores
 
