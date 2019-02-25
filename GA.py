@@ -70,9 +70,9 @@ def runOperators(population, scores, bestIndividual, bestScore,
             offspring2 = mutation(offspring2, len(offspring2), lb, ub)
         
         #Add offsprings to population
-        newPopulation[i] = offspring1
-        newPopulation[i + 1] = offspring2        
-    
+        newPopulation[i] = numpy.copy(offspring1)
+        newPopulation[i + 1] = numpy.copy(offspring2)
+        
     return newPopulation
 
 def elitism(population, scores, bestIndividual, bestScore):
