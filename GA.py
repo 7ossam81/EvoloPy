@@ -42,7 +42,7 @@ def runOperators(population, scores, bestIndividual, bestScore,
         newPopulation: the new generated population after applying the genetic operations
     """
     #Elitism operation
-    population, scores = elitism(population, scores, bestIndividual, bestScore)
+    elitism(population, scores, bestIndividual, bestScore)
     
     #initialize a new population
     newPopulation = numpy.empty_like(population)
@@ -64,10 +64,10 @@ def runOperators(population, scores, bestIndividual, bestScore,
         #Mutation   
         offspringMutationProbability = random.uniform(0.0, 1.0)
         if offspringMutationProbability < mutationProbability:
-            offspring1 = mutation(offspring1, len(offspring1), lb, ub)
+            mutation(offspring1, len(offspring1), lb, ub)
         offspringMutationProbability = random.uniform(0.0, 1.0)
         if offspringMutationProbability < mutationProbability:
-            offspring2 = mutation(offspring2, len(offspring2), lb, ub)
+            mutation(offspring2, len(offspring2), lb, ub)
         
         #Add offsprings to population
         newPopulation[i] = numpy.copy(offspring1)
@@ -106,9 +106,6 @@ def elitism(population, scores, bestIndividual, bestScore):
        population[worstFitnessId] = numpy.copy(bestIndividual)
        scores[worstFitnessId] = numpy.copy(bestScore)
     
-    return population, scores
-
-
 def selectWorstChromosome(scores):
     """    
     It is used to get the worst chromosome in a population based n the fitness value
@@ -252,7 +249,6 @@ def mutation(offspring, chromosomeLength, lb, ub):
     mutationIndex = random.randint(0, chromosomeLength - 1)
     mutationValue = random.randint(lb, ub)
     offspring[mutationIndex] = mutationValue
-    return offspring
 
 
 def GA(objf,lb,ub,dim,PopSize,iters):
