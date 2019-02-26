@@ -1,11 +1,12 @@
 """
-Created on Wed Nov  7 20:18:05 2018
+Created on Sat Feb  24 20:18:05 2019
 
 @author: Raneem
 """
 import numpy
 import random
 import time
+import sys
 
 from solution import solution
 
@@ -43,13 +44,13 @@ def runOperators(population, scores, bestIndividual, bestScore,
     """
     #Elitism operation
     elitism(population, scores, bestIndividual, bestScore)
-    
     #initialize a new population
     newPopulation = numpy.empty_like(population)
     
     #Create pairs of parents. The number of pairs equals the number of chromosomes divided by 2
     for i  in range(0, PopSize, 2):
         #pair of parents selection
+        
         parent1, parent2 = pairSelection(population, scores, PopSize)
         
         #crossover
@@ -163,13 +164,18 @@ def pairSelection(population, scores, PopSize):
     list
         parent2: The second parent chromosome of the pair
     """
-    sumFitness = sum(fit for fit in scores)
-    parent1 = population[rouletteWheelSelectionId(scores, sumFitness, PopSize)]
-    parent2 = population[rouletteWheelSelectionId(scores, sumFitness, PopSize)]
+    parent1Id = rouletteWheelSelectionId(scores, PopSize)
+    parent2Id = numpy.copy(parent1Id)
     
+    parent1 = population[parent1Id].copy()
+    while parent1Id == parent2Id:  
+        parent2Id = rouletteWheelSelectionId(scores, PopSize)
+    
+    parent2 = population[parent2Id].copy()
+   
     return parent1, parent2
     
-def rouletteWheelSelectionId(scores, sumScores, PopSize): 
+def rouletteWheelSelectionId(scores, PopSize): 
     """    
     A roulette Wheel Selection mechanism for selecting a chromosome
     
@@ -187,10 +193,15 @@ def rouletteWheelSelectionId(scores, sumScores, PopSize):
     id
         chromosomeId: The id of the chromosome selected
     """
+    
+    ##reverse score because minimum value should have more chance of selection
+    reverse = max(scores) + min(scores)
+    reverseScores = reverse - scores.copy()
+    sumScores = sum(reverseScores)
     pick    = random.uniform(0, sumScores)
     current = 0
     for chromosomeId in range(PopSize):
-        current += scores[chromosomeId]
+        current += reverseScores[chromosomeId]
         if current > pick:
             return chromosomeId
 
@@ -284,7 +295,6 @@ def GA(objf,lb,ub,dim,PopSize,iters):
     bestScore=float("inf")
     
     ga=numpy.random.uniform(0,1,(PopSize,dim)) *(ub-lb)+lb
-    
     convergence_curve=numpy.zeros(iters)
     
     print("GA is optimizing  \""+objf.__name__+"\"")  
@@ -292,15 +302,16 @@ def GA(objf,lb,ub,dim,PopSize,iters):
     timerStart=time.time() 
     s.startTime=time.strftime("%Y-%m-%d-%H-%M-%S")
     
-    for l in range(iters):        
-            
+    for l in range(iters):
+        
         #Loop through chromosomes in population
         for i in range(0,PopSize):
             # Return back the search agents that go beyond the boundaries of the search space
             ga[i,:]=numpy.clip(ga[i,:], lb, ub)
 
             # Calculate objective function for each search agent
-            fitness=objf(ga[i,:])                        
+            fitness=objf(ga[i,:])     
+            
             scores[i] = fitness
                 
             if(bestScore>fitness):
@@ -311,9 +322,10 @@ def GA(objf,lb,ub,dim,PopSize,iters):
         ga = runOperators(ga, scores, bestIndividual, bestScore, cp, mp, PopSize, lb, ub) 
                     
         convergence_curve[l]=bestScore
-      
+     
+        
         if (l%1==0):
-               print(['At iteration '+ str(l+1)+ ' the best fitness is '+ str(bestScore)]);
+            print(['At iteration '+ str(l+1)+ ' the best fitness is '+ str(bestScore)]);
         
     timerEnd=time.time()  
     s.bestIndividual = bestIndividual
@@ -324,6 +336,3 @@ def GA(objf,lb,ub,dim,PopSize,iters):
     s.objfname=objf.__name__
 
     return s
-         
-    
-    
