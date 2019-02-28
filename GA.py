@@ -258,7 +258,7 @@ def mutation(offspring, chromosomeLength, lb, ub):
         offspring: The updated offspring chromosome
     """
     mutationIndex = random.randint(0, chromosomeLength - 1)
-    mutationValue = random.randint(lb, ub)
+    mutationValue = random.uniform(lb, ub)
     offspring[mutationIndex] = mutationValue
 
 
