@@ -10,50 +10,22 @@ import sys
 
 from solution import solution
 
-def runOperators(population, scores, bestIndividual, bestScore,  
-                  crossoverProbability, mutationProbability, 
-                  PopSize, lb, ub):
-    """    
-    This method calls the evolutionary operators
+def sortPopulation(population, scores):
     
-    Parameters
-    ----------    
-    population : list
-        The list of chromosomes
-    scores : list
-        The list of fitness values for each chromosome
-    bestIndividual : list
-        A chromosome of the previous generation having the best fitness value          
-    bestScore : float
-        The best fitness value of the previous generation
-    crossoverProbability : float
-        The probability of crossover
-    mutationProbability : float
-        The probability of mutation
-    PopSize: int
-        Number of chrmosomes in a population
-    lb: int
-        lower bound limit
-    ub: int
-        Upper bound limit
+    sortedIndices = scores.argsort()
+    population = population[sortedIndices]
+    scores = scores[sortedIndices]
     
-    Returns
-    -------
-    list
-        newPopulation: the new generated population after applying the genetic operations
-    """
-    #Elitism operation
-    elitism(population, scores, bestIndividual, bestScore)
+    return population, scores
+
+def crossoverPopulaton(population, scores, PopSize, crossoverProbability, Keep):
     #initialize a new population
     newPopulation = numpy.empty_like(population)
-    
+    newPopulation[0:Keep] = population[0:Keep]
     #Create pairs of parents. The number of pairs equals the number of chromosomes divided by 2
-    for i  in range(0, PopSize, 2):
-        #pair of parents selection
-        
+    for i  in range(Keep, PopSize, 2):
+        #pair of parents selection        
         parent1, parent2 = pairSelection(population, scores, PopSize)
-        
-        #crossover
         crossoverLength = min(len(parent1), len(parent2))
         parentsCrossoverProbability = random.uniform(0.0, 1.0)
         if parentsCrossoverProbability < crossoverProbability:
@@ -61,20 +33,21 @@ def runOperators(population, scores, bestIndividual, bestScore,
         else:
             offspring1 = parent1.copy()
             offspring2 = parent2.copy()
-        
-        #Mutation   
-        offspringMutationProbability = random.uniform(0.0, 1.0)
-        if offspringMutationProbability < mutationProbability:
-            mutation(offspring1, len(offspring1), lb, ub)
-        offspringMutationProbability = random.uniform(0.0, 1.0)
-        if offspringMutationProbability < mutationProbability:
-            mutation(offspring2, len(offspring2), lb, ub)
-        
+    
         #Add offsprings to population
         newPopulation[i] = numpy.copy(offspring1)
         newPopulation[i + 1] = numpy.copy(offspring2)
-        
+     
     return newPopulation
+        
+    
+def mutatePopulaton(population, PopSize, mutationProbability, Keep, lb, ub):
+    for i  in range(Keep, PopSize):
+        #Mutation   
+        offspringMutationProbability = random.uniform(0.0, 1.0)
+        if offspringMutationProbability < mutationProbability:
+            mutation(population[i], len(population[i]), lb, ub)
+        
 
 def elitism(population, scores, bestIndividual, bestScore):
     """    
@@ -106,6 +79,7 @@ def elitism(population, scores, bestIndividual, bestScore):
     if scores[worstFitnessId] > bestScore:
        population[worstFitnessId] = numpy.copy(bestIndividual)
        scores[worstFitnessId] = numpy.copy(bestScore)
+       
     
 def selectWorstChromosome(scores):
     """    
@@ -262,6 +236,30 @@ def mutation(offspring, chromosomeLength, lb, ub):
     offspring[mutationIndex] = mutationValue
 
 
+def clearDups(Population, lb, ub):
+    newPopulation = numpy.unique(Population, axis=0)
+    oldLen = len(Population)
+    newLen = len(newPopulation)
+    if newLen < oldLen:
+        nDuplicates = oldLen - newLen
+        newPopulation = numpy.append(newPopulation, numpy.random.uniform(0,1,(nDuplicates,len(Population[0]))) *(ub-lb)+lb, axis=0)
+        
+    return newPopulation
+
+def calculateCost(objf, ga, PopSize, lb, ub):  
+    scores = numpy.full(PopSize, numpy.inf)
+    
+    #Loop through chromosomes in population
+    for i in range(0,PopSize):
+        # Return back the search agents that go beyond the boundaries of the search space
+        ga[i,:]=numpy.clip(ga[i,:], lb, ub)
+
+        # Calculate objective function for each search agent
+        scores[i] = objf(ga[i,:]) 
+        
+    return scores
+        
+
 def GA(objf,lb,ub,dim,PopSize,iters):
         
     """    
@@ -285,13 +283,14 @@ def GA(objf,lb,ub,dim,PopSize,iters):
     N/A
     """
     
-    cp = 0.8 #crossover Probability
-    mp = 0.001 #Mutation Probability
+    cp = 1 #crossover Probability
+    mp = 0.01 #Mutation Probability
+    keep = 2; # elitism parameter: how many of the best individuals to keep from one generation to the next
     
     s=solution()
         
     bestIndividual=numpy.zeros(dim)    
-    scores=numpy.zeros(PopSize) 
+    scores=numpy.random.uniform(0.0, 1.0, PopSize) 
     bestScore=float("inf")
     
     ga=numpy.random.uniform(0,1,(PopSize,dim)) *(ub-lb)+lb
@@ -303,26 +302,23 @@ def GA(objf,lb,ub,dim,PopSize,iters):
     s.startTime=time.strftime("%Y-%m-%d-%H-%M-%S")
     
     for l in range(iters):
-        
-        #Loop through chromosomes in population
-        for i in range(0,PopSize):
-            # Return back the search agents that go beyond the boundaries of the search space
-            ga[i,:]=numpy.clip(ga[i,:], lb, ub)
 
-            # Calculate objective function for each search agent
-            fitness=objf(ga[i,:])     
-            
-            scores[i] = fitness
-                
-            if(bestScore>fitness):
-                bestScore=fitness
-                bestIndividual=numpy.copy(ga[i,:])
+        #crossover
+        ga = crossoverPopulaton(ga, scores, PopSize, cp, keep)
+           
+        #mutation
+        mutatePopulaton(ga, PopSize, mp, keep, lb, ub)
+           
+        ga = clearDups(ga, lb, ub)
         
-        #Apply evolutionary operators to chromosomes
-        ga = runOperators(ga, scores, bestIndividual, bestScore, cp, mp, PopSize, lb, ub) 
-                    
-        convergence_curve[l]=bestScore
-     
+        scores = calculateCost(objf, ga, PopSize, lb, ub)
+            
+        bestScore = min(scores)
+        
+        #Sort from best to worst
+        ga, scores = sortPopulation(ga, scores)
+         
+        convergence_curve[l]=bestScore     
         
         if (l%1==0):
             print(['At iteration '+ str(l+1)+ ' the best fitness is '+ str(bestScore)]);
