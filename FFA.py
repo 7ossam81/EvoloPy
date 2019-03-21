@@ -49,6 +49,10 @@ def FFA(objf,lb,ub,dim,n,MaxGeneration):
     alpha=0.5  # Randomness 0--1 (highly random)
     betamin=0.20  # minimum value of beta
     gamma=1   # Absorption coefficient
+    if not isinstance(lb, list):
+        lb = [lb] * dim
+    if not isinstance(ub, list):
+        ub = [ub] * dim
     
     
     
@@ -57,7 +61,9 @@ def FFA(objf,lb,ub,dim,n,MaxGeneration):
     
     
     #ns(i,:)=Lb+(Ub-Lb).*rand(1,d);
-    ns=numpy.random.uniform(0,1,(n,dim)) *(ub-lb)+lb
+    ns = numpy.zeros((n, dim))
+    for i in range(dim):
+        ns[:, i] = numpy.random.uniform(0,1, n) * (ub[i] - lb[i]) + lb[i]
     Lightn=numpy.ones(n)
     Lightn.fill(float("inf")) 
     
@@ -106,7 +112,10 @@ def FFA(objf,lb,ub,dim,n,MaxGeneration):
         #% Move all fireflies to the better locations
     #    [ns]=ffa_move(n,d,ns,Lightn,nso,Lighto,nbest,...
     #          Lightbest,alpha,betamin,gamma,Lb,Ub);
-        scale=numpy.ones(dim)*abs(ub-lb)
+        scale = []
+        for b in range(dim):
+            scale.append(abs(ub[b] - lb[b]))
+        scale = numpy.array(scale)
         for i in range (0,n):
             # The attractiveness parameter beta=exp(-gamma*r)
             for j in range(0,n):
