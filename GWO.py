@@ -32,9 +32,16 @@ def GWO(objf,lb,ub,dim,SearchAgents_no,Max_iter):
     
     Delta_pos=numpy.zeros(dim)
     Delta_score=float("inf")
+
+    if not isinstance(lb, list):
+        lb = [lb] * dim
+    if not isinstance(ub, list):
+        ub = [ub] * dim
     
     #Initialize the positions of search agents
-    Positions=numpy.random.uniform(0,1,(SearchAgents_no,dim)) *(ub-lb)+lb
+    Positions = numpy.zeros((SearchAgents_no, dim))
+    for i in range(dim):
+        Positions[:, i] = numpy.random.uniform(0,1, SearchAgents_no) * (ub[i] - lb[i]) + lb[i]
     
     Convergence_curve=numpy.zeros(Max_iter)
     s=solution()
@@ -49,7 +56,8 @@ def GWO(objf,lb,ub,dim,SearchAgents_no,Max_iter):
         for i in range(0,SearchAgents_no):
             
             # Return back the search agents that go beyond the boundaries of the search space
-            Positions[i,:]=numpy.clip(Positions[i,:], lb, ub)
+            for j in range(dim):
+                Positions[i,j]=numpy.clip(Positions[i,j], lb[j], ub[j])
 
             # Calculate objective function for each search agent
             fitness=objf(Positions[i,:])
