@@ -16,6 +16,10 @@ def BAT(objf,lb,ub,dim,N,Max_iteration):
     n=N;      # Population size
     #lb=-50
     #ub=50
+    if not isinstance(lb, list):
+        lb = [lb] * dim
+    if not isinstance(ub, list):
+        ub = [ub] * dim
     N_gen=Max_iteration  # Number of generations
     
     A=0.5;      # Loudness  (constant or decreasing)
@@ -33,7 +37,10 @@ def BAT(objf,lb,ub,dim,N,Max_iteration):
     Convergence_curve=[];
     
     # Initialize the population/solutions
-    Sol=numpy.random.rand(n,d)*(ub-lb)+lb
+    Sol = numpy.zeros((n,d))
+    for i in range(dim):
+      Sol[:, i] = numpy.random.uniform(n) * (ub[i]-lb[i])+lb[i]
+
     S=numpy.zeros((n,d))
     S=numpy.copy(Sol)
     Fitness=numpy.zeros(n)
@@ -68,7 +75,8 @@ def BAT(objf,lb,ub,dim,N,Max_iteration):
           S[i,:]=Sol[i,:]+v[i,:]
           
           # Check boundaries
-          Sol=numpy.clip(Sol,lb,ub)
+          for j in range(d):
+            Sol[i,j] = numpy.clip(Sol[i,j], lb[j], ub[j])
     
           # Pulse rate
           if random.random()>r:
