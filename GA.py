@@ -10,22 +10,34 @@ import sys
 
 from solution import solution
 
-def sortPopulation(population, scores):
+def crossoverPopulaton(population, scores, popSize, crossoverProbability, keep):
+    """    
+    The crossover of all individuals
     
-    sortedIndices = scores.argsort()
-    population = population[sortedIndices]
-    scores = scores[sortedIndices]
-    
-    return population, scores
-
-def crossoverPopulaton(population, scores, PopSize, crossoverProbability, Keep):
+    Parameters
+    ---------- 
+    population : list
+        The list of individuals
+    scores : list
+        The list of fitness values for each individual
+    popSize: int
+        Number of chrmosome in a population  
+    crossoverProbability: float
+        The probability of crossing a pair of individuals
+    keep: int
+        Number of best individuals to keep without mutating for the next generation
+         
+    Returns
+    -------
+    N/A
+    """
     #initialize a new population
     newPopulation = numpy.empty_like(population)
-    newPopulation[0:Keep] = population[0:Keep]
-    #Create pairs of parents. The number of pairs equals the number of chromosomes divided by 2
-    for i  in range(Keep, PopSize, 2):
+    newPopulation[0:keep] = population[0:keep]
+    #Create pairs of parents. The number of pairs equals the number of individuals divided by 2
+    for i  in range(keep, popSize, 2):
         #pair of parents selection        
-        parent1, parent2 = pairSelection(population, scores, PopSize)
+        parent1, parent2 = pairSelection(population, scores, popSize)
         crossoverLength = min(len(parent1), len(parent2))
         parentsCrossoverProbability = random.uniform(0.0, 1.0)
         if parentsCrossoverProbability < crossoverProbability:
@@ -41,8 +53,30 @@ def crossoverPopulaton(population, scores, PopSize, crossoverProbability, Keep):
     return newPopulation
         
     
-def mutatePopulaton(population, PopSize, mutationProbability, Keep, lb, ub):
-    for i  in range(Keep, PopSize):
+def mutatePopulaton(population, popSize, mutationProbability, keep, lb, ub):
+    """    
+    The mutation of all individuals
+    
+    Parameters
+    ---------- 
+    population : list
+        The list of individuals
+    popSize: int
+        Number of chrmosome in a population  
+    mutationProbability: float
+        The probability of mutating an individual
+    keep: int
+        Number of best individuals to keep without mutating for the next generation
+    lb: int
+        lower bound limit
+    ub: int
+        Upper bound limit
+         
+    Returns
+    -------
+    N/A
+    """
+    for i  in range(keep, popSize):
         #Mutation   
         offspringMutationProbability = random.uniform(0.0, 1.0)
         if offspringMutationProbability < mutationProbability:
@@ -51,29 +85,26 @@ def mutatePopulaton(population, PopSize, mutationProbability, Keep, lb, ub):
 
 def elitism(population, scores, bestIndividual, bestScore):
     """    
-    This method performs the elitism operator
+    This melitism operator of the population
     
     Parameters
     ----------    
     population : list
-        The list of chromosomes
+        The list of individuals
     scores : list
-        The list of fitness values for each chromosome
+        The list of fitness values for each individual
     bestIndividual : list
-        A chromosome of the previous generation having the best fitness value          
+        An individual of the previous generation having the best fitness value          
     bestScore : float
         The best fitness value of the previous generation        
     
     Returns
     -------
-    list
-        population : The updated population after applying the elitism
-    list
-        scores : The updated list of fitness values for each chromosome after applying the elitism
+    N/A
     """
     
-    # get the worst chromosome
-    worstFitnessId = selectWorstChromosome(scores)
+    # get the worst individual
+    worstFitnessId = selectWorstIndividual(scores)
     
     #replace worst cromosome with best one from previous generation if its fitness is less than the other
     if scores[worstFitnessId] > bestScore:
@@ -81,91 +112,68 @@ def elitism(population, scores, bestIndividual, bestScore):
        scores[worstFitnessId] = numpy.copy(bestScore)
        
     
-def selectWorstChromosome(scores):
+def selectWorstIndividual(scores):
     """    
-    It is used to get the worst chromosome in a population based n the fitness value
+    It is used to get the worst individual in a population based n the fitness value
     
     Parameters
     ---------- 
     scores : list
-        The list of fitness values for each chromosome
+        The list of fitness values for each individual
         
     Returns
     -------
     int
-        maxFitnessId: The chromosome id of the worst fitness value
+        maxFitnessId: The individual id of the worst fitness value
     """
     
     maxFitnessId = numpy.where(scores == numpy.max(scores))
     maxFitnessId = maxFitnessId[0][0]
     return maxFitnessId
 
-def selectBestChromosome(scores):
-    """    
-    It is used to get the best chromosome in a population based n the fitness value
-    
-    Parameters
-    ---------- 
-    scores : list
-        The list of fitness values for each chromosome
-        
-    Returns
-    -------
-    int
-        maxFitnessId: The chromosome id of the best fitness value
-    """
-    minFitnessId = numpy.where(scores == numpy.min(scores))
-    minFitnessId = minFitnessId[0][0]
-    return minFitnessId
-
-def pairSelection(population, scores, PopSize):    
+def pairSelection(population, scores, popSize):    
     """    
     This is used to select one pair of parents using roulette Wheel Selection mechanism
     
     Parameters
     ---------- 
     population : list
-        The list of chromosomes
+        The list of individuals
     scores : list
-        The list of fitness values for each chromosome
-    PopSize: int
+        The list of fitness values for each individual
+    popSize: int
         Number of chrmosome in a population
           
     Returns
     -------
     list
-        parent1: The first parent chromosome of the pair
+        parent1: The first parent individual of the pair
     list
-        parent2: The second parent chromosome of the pair
+        parent2: The second parent individual of the pair
     """
-    parent1Id = rouletteWheelSelectionId(scores, PopSize)
-    parent2Id = numpy.copy(parent1Id)
-    
+    parent1Id = rouletteWheelSelectionId(scores, popSize)
     parent1 = population[parent1Id].copy()
-    while parent1Id == parent2Id:  
-        parent2Id = rouletteWheelSelectionId(scores, PopSize)
     
+    parent2Id = rouletteWheelSelectionId(scores, popSize)    
     parent2 = population[parent2Id].copy()
    
     return parent1, parent2
     
-def rouletteWheelSelectionId(scores, PopSize): 
+def rouletteWheelSelectionId(scores, popSize): 
     """    
-    A roulette Wheel Selection mechanism for selecting a chromosome
+    A roulette Wheel Selection mechanism for selecting an individual
     
     Parameters
     ---------- 
     scores : list
-        The list of fitness values for each chromosome
-    sumScores : float
-        The summation of all the fitness values for all chromosomes in a generation
-    PopSize: int
+        The list of fitness values for each individual
+    popSize: int
         Number of chrmosome in a population
           
     Returns
     -------
     id
-        chromosomeId: The id of the chromosome selected
+        individualId: The id of the individual selected
     """
     
     ##reverse score because minimum value should have more chance of selection
@@ -174,52 +182,51 @@ def rouletteWheelSelectionId(scores, PopSize):
     sumScores = sum(reverseScores)
     pick    = random.uniform(0, sumScores)
     current = 0
-    for chromosomeId in range(PopSize):
-        current += reverseScores[chromosomeId]
+    for individualId in range(popSize):
+        current += reverseScores[individualId]
         if current > pick:
-            return chromosomeId
+            return individualId
 
-def crossover(chromosomeLength, parent1, parent2):
+def crossover(individualLength, parent1, parent2):
     """    
-    The crossover operator
+    The crossover operator of a two individuals
     
     Parameters
     ---------- 
-    chromosomeLength: int
+    individualLength: int
         The maximum index of the crossover
     parent1 : list
-        The first parent chromosome of the pair
+        The first parent individual of the pair
     parent2 : list
-        The second parent chromosome of the pair
+        The second parent individual of the pair
           
     Returns
     -------
     list
-        offspring1: The first updated parent chromosome of the pair
+        offspring1: The first updated parent individual of the pair
     list
-        offspring2: The second updated parent chromosome of the pair
+        offspring2: The second updated parent individual of the pair
     """
     
     # The point at which crossover takes place between two parents. 
-    crossover_point = random.randint(0, chromosomeLength - 1)
-
+    crossover_point = random.randint(0, individualLength - 1)
     # The new offspring will have its first half of its genes taken from the first parent and second half of its genes taken from the second parent.
     offspring1 = numpy.concatenate([parent1[0:crossover_point],parent2[crossover_point:]])
     # The new offspring will have its first half of its genes taken from the second parent and second half of its genes taken from the first parent.
     offspring2 = numpy.concatenate([parent2[0:crossover_point],parent1[crossover_point:]])
-      
+    
     return offspring1, offspring2
 
 
-def mutation(offspring, chromosomeLength, lb, ub):
+def mutation(offspring, individualLength, lb, ub):
     """    
-    The mutation operator
+    The mutation operator of a single individual
     
     Parameters
     ---------- 
     offspring : list
-        A generated chromosome after the crossover
-    chromosomeLength: int
+        A generated individual after the crossover
+    individualLength: int
         The maximum index of the crossover
     lb: int
         lower bound limit
@@ -228,15 +235,32 @@ def mutation(offspring, chromosomeLength, lb, ub):
          
     Returns
     -------
-    list
-        offspring: The updated offspring chromosome
+    N/A
     """
-    mutationIndex = random.randint(0, chromosomeLength - 1)
+    mutationIndex = random.randint(0, individualLength - 1)
     mutationValue = random.uniform(lb, ub)
     offspring[mutationIndex] = mutationValue
 
 
-def clearDups(Population, lb, ub):
+def clearDups(Population, lb, ub):    
+        
+    """    
+    It removes individuals duplicates and replace them with random ones
+    
+    Parameters
+    ----------    
+    objf : function
+        The objective function selected
+    lb: int
+        lower bound limit
+    ub: int
+        Upper bound limit
+    
+    Returns
+    -------
+    list
+        newPopulation: the updated list of individuals
+    """ 
     newPopulation = numpy.unique(Population, axis=0)
     oldLen = len(Population)
     newLen = len(newPopulation)
@@ -246,21 +270,68 @@ def clearDups(Population, lb, ub):
         
     return newPopulation
 
-def calculateCost(objf, ga, PopSize, lb, ub):  
-    scores = numpy.full(PopSize, numpy.inf)
+def calculateCost(objf, population, popSize, lb, ub):
+        
+    """    
+    It calculates the fitness value of each individual in the population
     
-    #Loop through chromosomes in population
-    for i in range(0,PopSize):
+    Parameters
+    ----------    
+    objf : function
+        The objective function selected    
+    population : list
+        The list of individuals
+    popSize: int
+        Number of chrmosomes in a population
+    lb: int
+        lower bound limit
+    ub: int
+        Upper bound limit
+    
+    Returns
+    -------
+    list
+        scores: fitness values of all individuals in the population
+    """ 
+    scores = numpy.full(popSize, numpy.inf)
+    
+    #Loop through individuals in population
+    for i in range(0,popSize):
         # Return back the search agents that go beyond the boundaries of the search space
-        ga[i,:]=numpy.clip(ga[i,:], lb, ub)
+        population[i,:]=numpy.clip(population[i,:], lb, ub)
 
         # Calculate objective function for each search agent
-        scores[i] = objf(ga[i,:]) 
+        scores[i] = objf(population[i,:]) 
         
     return scores
         
 
-def GA(objf,lb,ub,dim,PopSize,iters):
+def sortPopulation(population, scores):
+    """    
+    This is used to sort the population according to the fitness values of the individuals
+    
+    Parameters
+    ---------- 
+    population : list
+        The list of individuals
+    scores : list
+        The list of fitness values for each individual
+          
+    Returns
+    -------
+    list
+        population: The new sorted list of individuals
+    list
+        scores: The new sorted list of fitness values of the individuals
+    """
+    sortedIndices = scores.argsort()
+    population = population[sortedIndices]
+    scores = scores[sortedIndices]
+    
+    return population, scores
+
+
+def GA(objf,lb,ub,dim,popSize,iters):
         
     """    
     This is the main method which implements GA
@@ -273,14 +344,17 @@ def GA(objf,lb,ub,dim,PopSize,iters):
         lower bound limit
     ub: int
         Upper bound limit
-    PopSize: int
+    dim: int
+        The dimension of the indivisual
+    popSize: int
         Number of chrmosomes in a population
     iters: int
         Number of iterations / generations of GA
     
     Returns
     -------
-    N/A
+    obj
+        s: The solution obtained from running the algorithm
     """
     
     cp = 1 #crossover Probability
@@ -290,10 +364,10 @@ def GA(objf,lb,ub,dim,PopSize,iters):
     s=solution()
         
     bestIndividual=numpy.zeros(dim)    
-    scores=numpy.random.uniform(0.0, 1.0, PopSize) 
+    scores=numpy.random.uniform(0.0, 1.0, popSize) 
     bestScore=float("inf")
     
-    ga=numpy.random.uniform(0,1,(PopSize,dim)) *(ub-lb)+lb
+    ga=numpy.random.uniform(0,1,(popSize,dim)) *(ub-lb)+lb
     convergence_curve=numpy.zeros(iters)
     
     print("GA is optimizing  \""+objf.__name__+"\"")  
@@ -304,14 +378,14 @@ def GA(objf,lb,ub,dim,PopSize,iters):
     for l in range(iters):
 
         #crossover
-        ga = crossoverPopulaton(ga, scores, PopSize, cp, keep)
+        ga = crossoverPopulaton(ga, scores, popSize, cp, keep)
            
         #mutation
-        mutatePopulaton(ga, PopSize, mp, keep, lb, ub)
+        mutatePopulaton(ga, popSize, mp, keep, lb, ub)
            
         ga = clearDups(ga, lb, ub)
         
-        scores = calculateCost(objf, ga, PopSize, lb, ub)
+        scores = calculateCost(objf, ga, popSize, lb, ub)
             
         bestScore = min(scores)
         
@@ -332,3 +406,6 @@ def GA(objf,lb,ub,dim,PopSize,iters):
     s.objfname=objf.__name__
 
     return s
+         
+    
+    
