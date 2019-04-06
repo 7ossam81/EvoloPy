@@ -14,6 +14,7 @@ import WOA as woa
 import FFA as ffa
 import SSA as ssa
 import GA as ga
+import HHO as hho
 import benchmarks
 import csv
 import numpy
@@ -46,8 +47,9 @@ def selector(algo,func_details,popSize,Iter):
         x=ssa.SSA(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     if(algo==9):
         x=ga.GA(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
+    if(algo==10):
+        x=hho.HHO(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     return x
-    
     
     
 # Select optimizers
@@ -60,33 +62,34 @@ BAT= False
 WOA= False
 FFA=False
 SSA=False
-GA=True
+GA=False
+HHO=True
 
 
 # Select benchmark function
 F1=True
-F2=False
-F3=False
-F4=False
-F5=False
-F6=False
-F7=False
-F8=False
-F9=False
-F10=False
-F11=False
-F12=False
-F13=False
-F14=False
-F15=False
-F16=False
-F17=False
-F18=False
-F19=False
+F2=True
+F3=True
+F4=True
+F5=True
+F6=True
+F7=True
+F8=True
+F9=True
+F10=True
+F11=True
+F12=True
+F13=True
+F14=True
+F15=True
+F16=True
+F17=True
+F18=True
+F19=True
 
 
 
-optimizer=[PSO, MVO, GWO, MFO, CS, BAT, WOA, FFA, SSA, GA]
+optimizer=[PSO, MVO, GWO, MFO, CS, BAT, WOA, FFA, SSA, GA, HHO]
 benchmarkfunc=[F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12,F13,F14,F15,F16,F17,F18,F19] 
         
 # Select number of repetitions for each experiment. 
@@ -95,8 +98,8 @@ benchmarkfunc=[F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12,F13,F14,F15,F16,F17,F18,F1
 NumOfRuns=1
 
 # Select general parameters for all optimizers (population size, number of iterations)
-PopulationSize = 50
-Iterations= 500
+PopulationSize = 500
+Iterations= 50
 
 #Export results ?
 Export=True
