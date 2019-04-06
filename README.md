@@ -72,6 +72,9 @@ Now your experiment is ready to run. Enjoy!
 - Issue Tracker: https://github.com/7ossam81/EvoloPy/issues  
 - Source Code: https://github.com/7ossam81/EvoloPy
 
+## List of contributors
+
+
 ## Support
 
 Use the [issue tracker](https://github.com/7ossam81/EvoloPy/issues). 
