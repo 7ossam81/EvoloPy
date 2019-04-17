@@ -52,7 +52,7 @@ def SSA(objf,lb,ub,dim,N,Max_iteration):
    
     
         
-    Iteration=2;    
+    Iteration=1;    
     
     # Main loop
     while (Iteration<Max_iteration):
