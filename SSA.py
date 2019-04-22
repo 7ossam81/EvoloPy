@@ -57,10 +57,10 @@ def SSA(objf,lb,ub,dim,N,Max_iteration):
    
     
         
-    Iteration=2;    
+    Iteration=1;    
     
     # Main loop
-    while (Iteration<Max_iteration+1):
+    while (Iteration<Max_iteration):
         
         # Number of flames Eq. (3.14) in the paper
         #Flame_no=round(N-Iteration*((N-1)/Max_iteration));
@@ -74,7 +74,7 @@ def SSA(objf,lb,ub,dim,N,Max_iteration):
             
             SalpPositions= numpy.transpose(SalpPositions);
 
-            if i<=N/2:
+            if i<N/2:
                 for j in range(0,dim):
                     c2=random.random()
                     c3=random.random()
@@ -87,7 +87,7 @@ def SSA(objf,lb,ub,dim,N,Max_iteration):
                     ####################
             
             
-            elif i>N/2 and i<N+1:
+            elif i>=N/2 and i<N+1:
                 point1=SalpPositions[:,i-1];
                 point2=SalpPositions[:,i];
                 
@@ -116,6 +116,7 @@ def SSA(objf,lb,ub,dim,N,Max_iteration):
     
     
     
+        Convergence_curve[Iteration]=FoodFitness
     
         Iteration=Iteration+1; 
     
