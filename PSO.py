@@ -33,6 +33,10 @@ def PSO(objf,lb,ub,dim,PopSize,iters):
 #    ub=10
 #    
     s=solution()
+    if not isinstance(lb, list):
+        lb = [lb] * dim
+    if not isinstance(ub, list):
+        ub = [ub] * dim
     
     
     ######################## Initializations
@@ -47,8 +51,10 @@ def PSO(objf,lb,ub,dim,PopSize,iters):
     
     
     gBestScore=float("inf")
-    
-    pos=numpy.random.uniform(0,1,(PopSize,dim)) *(ub-lb)+lb
+
+    pos = numpy.zeros((PopSize, dim))
+    for i in range(dim):
+        pos[:, i] = numpy.random.uniform(0,1, PopSize) * (ub[i] - lb[i]) + lb[i]
     
     convergence_curve=numpy.zeros(iters)
     
@@ -61,7 +67,8 @@ def PSO(objf,lb,ub,dim,PopSize,iters):
     for l in range(0,iters):
         for i in range(0,PopSize):
             #pos[i,:]=checkBounds(pos[i,:],lb,ub)
-            pos[i,:]=numpy.clip(pos[i,:], lb, ub)
+            for j in range(dim):
+                pos[i, j] = numpy.clip(pos[i,j], lb[j], ub[j])
             #Calculate objective function for each particle
             fitness=objf(pos[i,:])
     
