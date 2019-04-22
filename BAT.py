@@ -39,7 +39,7 @@ def BAT(objf,lb,ub,dim,N,Max_iteration):
     # Initialize the population/solutions
     Sol = numpy.zeros((n,d))
     for i in range(dim):
-      Sol[:, i] = numpy.random.uniform(n) * (ub[i]-lb[i])+lb[i]
+      Sol[:, i] = numpy.random.rand(n) * (ub[i]-lb[i])+lb[i]
 
     S=numpy.zeros((n,d))
     S=numpy.copy(Sol)
@@ -77,6 +77,7 @@ def BAT(objf,lb,ub,dim,N,Max_iteration):
           # Check boundaries
           for j in range(d):
             Sol[i,j] = numpy.clip(Sol[i,j], lb[j], ub[j])
+            
 
     
           # Pulse rate
