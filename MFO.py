@@ -22,12 +22,17 @@ def MFO(objf,lb,ub,dim,N,Max_iteration):
     #ub=100
     #dim=30
     N=50 # Number of search agents
-    
+    if not isinstance(lb, list):
+        lb = [lb] * dim
+    if not isinstance(ub, list):
+        ub = [ub] * dim
     
     
     
     #Initialize the positions of moths
-    Moth_pos=numpy.random.uniform(0,1,(N,dim)) *(ub-lb)+lb
+    Moth_pos = numpy.zeros((N, dim))
+    for i in range(dim):
+        Moth_pos[:,i] = numpy.random.uniform(0, 1, N) * (ub[i] - lb[i]) + lb[i]
     Moth_fitness=numpy.full(N,float("inf"))
     #Moth_fitness=numpy.fell(float("inf"))
     
@@ -68,7 +73,8 @@ def MFO(objf,lb,ub,dim,N,Max_iteration):
         for i in range(0,N):
             
             # Check if moths go out of the search spaceand bring it back
-            Moth_pos[i,:]=numpy.clip(Moth_pos[i,:], lb, ub)
+            for j in range(dim):
+                Moth_pos[i,j]=numpy.clip(Moth_pos[i,j], lb[j], ub[j])
 
             # evaluate moths
             Moth_fitness[i]=objf(Moth_pos[i,:])  

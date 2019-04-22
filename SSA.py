@@ -15,12 +15,17 @@ def SSA(objf,lb,ub,dim,N,Max_iteration):
     #ub=100
     #dim=30
     N=50 # Number of search agents
-    
+    if not isinstance(lb, list):
+        lb = [lb] * dim
+    if not isinstance(ub, list):
+        ub = [ub] * dim
     Convergence_curve=numpy.zeros(Max_iteration)
 
         
     #Initialize the positions of salps
-    SalpPositions=numpy.random.uniform(0,1,(N,dim)) *(ub-lb)+lb
+    SalpPositions = numpy.zeros((N, dim))
+    for i in range(dim):
+        SalpPositions[:, i] = numpy.random.uniform(0, 1, N) * (ub[i] - lb[i]) + lb[i]
     SalpFitness=numpy.full(N,float("inf"))
     
     FoodPosition=numpy.zeros(dim)
@@ -75,10 +80,10 @@ def SSA(objf,lb,ub,dim,N,Max_iteration):
                     c3=random.random()
                     #Eq. (3.1) in the paper 
                     if c3<0.5:
-                        SalpPositions[j,i]=FoodPosition[j]+c1*((ub-lb)*c2+lb);
+                        SalpPositions[j,i]=FoodPosition[j]+c1*((ub[j]-lb[j])*c2+lb[j]);
                     else:
-                        SalpPositions[j,i]=FoodPosition[j]-c1*((ub-lb)*c2+lb);
-                    
+                        SalpPositions[j,i]=FoodPosition[j]-c1*((ub[j]-lb[j])*c2+lb[j]);
+
                     ####################
             
             
@@ -94,20 +99,15 @@ def SSA(objf,lb,ub,dim,N,Max_iteration):
            
         for i in range(0,N):
         
-           # Check if salps go out of the search spaceand bring it back
-            SalpPositions[i,:]=numpy.clip(SalpPositions[i,:], lb, ub)            
+            # Check if salps go out of the search spaceand bring it back
+            for j in range(dim):
+                SalpPositions[i,j]=numpy.clip(SalpPositions[i,j], lb[j], ub[j])            
             
             SalpFitness[i]=objf(SalpPositions[i,:]);
             
             if SalpFitness[i]<FoodFitness:
                 FoodPosition=numpy.copy(SalpPositions[i,:])
                 FoodFitness=SalpFitness[i]
-            
-      
-
-
-
-
 
 
         #Display best fitness along the iteration

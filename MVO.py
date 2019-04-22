@@ -64,11 +64,18 @@ def MVO(objf,lb,ub,dim,N,Max_time):
     WEP_Min=0.2
     #Max_time=1000
     #N=50
+    if not isinstance(lb, list):
+        lb = [lb] * dim
+    if not isinstance(ub, list):
+        ub = [ub] * dim
     
     
     
     
-    Universes=numpy.random.uniform(0,1,(N,dim)) *(ub-lb)+lb
+    Universes = numpy.zeros((N, dim))
+    for i in range(dim):
+        Universes[:, i] = numpy.random.uniform(0,1, N) * (ub[i] - lb[i]) + lb[i]
+
     Sorted_universes=numpy.copy(Universes)
     
     convergence=numpy.zeros(Max_time)
@@ -101,7 +108,8 @@ def MVO(objf,lb,ub,dim,N,Max_time):
        
        
         for i in range(0,N):
-            Universes[i,:]=numpy.clip(Universes[i,:], lb, ub)
+            for j in range(dim):
+                Universes[i,j]=numpy.clip(Universes[i,j], lb[j], ub[j])
     
             
     
@@ -145,9 +153,9 @@ def MVO(objf,lb,ub,dim,N,Max_time):
                 if r2<WEP:
                     r3=random.random() 
                     if r3<0.5:                    
-                        Universes[i,j]=Best_universe[j]+TDR*((ub-lb)*random.random()+lb) #random.uniform(0,1)+lb);
+                        Universes[i,j]=Best_universe[j]+TDR*((ub[j]-lb[j])*random.random()+lb[j]) #random.uniform(0,1)+lb);
                     if r3>0.5:          
-                        Universes[i,j]=Best_universe[j]-TDR*((ub-lb)*random.random()+lb) #random.uniform(0,1)+lb);
+                        Universes[i,j]=Best_universe[j]-TDR*((ub[j]-lb[j])*random.random()+lb[j]) #random.uniform(0,1)+lb);
                               
         
         
