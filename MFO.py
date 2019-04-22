@@ -65,7 +65,7 @@ def MFO(objf,lb,ub,dim,N,Max_iteration):
     Iteration=1;    
     
     # Main loop
-    while (Iteration<Max_iteration+1):
+    while (Iteration<Max_iteration):
         
         # Number of flames Eq. (3.14) in the paper
         Flame_no=round(N-Iteration*((N-1)/Max_iteration));
@@ -149,7 +149,8 @@ def MFO(objf,lb,ub,dim,N,Max_iteration):
     #                
     #                % Eq. (3.12)
                     Moth_pos[i,j]=distance_to_flame*math.exp(b*t)*math.cos(t*2*math.pi)+sorted_population[Flame_no,j]
-
+        
+        Convergence_curve[Iteration]=Best_flame_score
         #Display best fitness along the iteration
         if (Iteration%1==0):
             print(['At iteration '+ str(Iteration)+ ' the best fitness is '+ str(Best_flame_score)]);

@@ -77,6 +77,7 @@ def BAT(objf,lb,ub,dim,N,Max_iteration):
           # Check boundaries
           for j in range(d):
             Sol[i,j] = numpy.clip(Sol[i,j], lb[j], ub[j])
+
     
           # Pulse rate
           if random.random()>r:
@@ -94,7 +95,7 @@ def BAT(objf,lb,ub,dim,N,Max_iteration):
     
           # Update the current best solution
           if Fnew<=fmin:
-                best=S[i,:]
+                best=numpy.copy(S[i,:])
                 fmin=Fnew
                 
         #update convergence curve
