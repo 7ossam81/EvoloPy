@@ -67,10 +67,10 @@ def mutatePopulaton(population, popSize, mutationProbability, keep, lb, ub):
         The probability of mutating an individual
     keep: int
         Number of best individuals to keep without mutating for the next generation
-    lb: int
-        lower bound limit
-    ub: int
-        Upper bound limit
+    lb: list
+        lower bound limit list
+    ub: list
+        Upper bound limit list
          
     Returns
     -------
@@ -228,17 +228,17 @@ def mutation(offspring, individualLength, lb, ub):
         A generated individual after the crossover
     individualLength: int
         The maximum index of the crossover
-    lb: int
-        lower bound limit
-    ub: int
-        Upper bound limit
+    lb: list
+        lower bound limit list
+    ub: list
+        Upper bound limit list
          
     Returns
     -------
     N/A
     """
     mutationIndex = random.randint(0, individualLength - 1)
-    mutationValue = random.uniform(lb, ub)
+    mutationValue = random.uniform(lb[mutationIndex], ub[mutationIndex])
     offspring[mutationIndex] = mutationValue
 
 
@@ -251,10 +251,10 @@ def clearDups(Population, lb, ub):
     ----------    
     objf : function
         The objective function selected
-    lb: int
-        lower bound limit
-    ub: int
-        Upper bound limit
+    lb: list
+        lower bound limit list
+    ub: list
+        Upper bound limit list
     
     Returns
     -------
@@ -266,8 +266,8 @@ def clearDups(Population, lb, ub):
     newLen = len(newPopulation)
     if newLen < oldLen:
         nDuplicates = oldLen - newLen
-        newPopulation = numpy.append(newPopulation, numpy.random.uniform(0,1,(nDuplicates,len(Population[0]))) *(ub-lb)+lb, axis=0)
-        
+        newPopulation = numpy.append(newPopulation, numpy.random.uniform(0,1,(nDuplicates,len(Population[0]))) * (numpy.array(ub) - numpy.array(lb)) + numpy.array(lb), axis=0)
+            		        
     return newPopulation
 
 def calculateCost(objf, population, popSize, lb, ub):
@@ -283,10 +283,10 @@ def calculateCost(objf, population, popSize, lb, ub):
         The list of individuals
     popSize: int
         Number of chrmosomes in a population
-    lb: int
-        lower bound limit
-    ub: int
-        Upper bound limit
+    lb: list
+        lower bound limit list
+    ub: list
+        Upper bound limit list
     
     Returns
     -------
@@ -298,8 +298,8 @@ def calculateCost(objf, population, popSize, lb, ub):
     #Loop through individuals in population
     for i in range(0,popSize):
         # Return back the search agents that go beyond the boundaries of the search space
-        population[i,:]=numpy.clip(population[i,:], lb, ub)
-
+        population[i] = numpy.clip(population[i], lb, ub)
+			
         # Calculate objective function for each search agent
         scores[i] = objf(population[i,:]) 
         
@@ -340,10 +340,10 @@ def GA(objf,lb,ub,dim,popSize,iters):
     ----------    
     objf : function
         The objective function selected
-    lb: int
-        lower bound limit
-    ub: int
-        Upper bound limit
+    lb: list
+        lower bound limit list
+    ub: list
+        Upper bound limit list
     dim: int
         The dimension of the indivisual
     popSize: int
@@ -362,12 +362,19 @@ def GA(objf,lb,ub,dim,popSize,iters):
     keep = 2; # elitism parameter: how many of the best individuals to keep from one generation to the next
     
     s=solution()
+	
+    if not isinstance(lb, list):
+        lb = [lb] * dim
+    if not isinstance(ub, list):
+        ub = [ub] * dim
         
     bestIndividual=numpy.zeros(dim)    
     scores=numpy.random.uniform(0.0, 1.0, popSize) 
     bestScore=float("inf")
     
-    ga=numpy.random.uniform(0,1,(popSize,dim)) *(ub-lb)+lb
+    ga = numpy.zeros((popSize, dim))
+    for i in range(dim):
+        ga[:, i]=numpy.random.uniform(0,1,popSize) * (ub[i] - lb[i]) + lb[i]
     convergence_curve=numpy.zeros(iters)
     
     print("GA is optimizing  \""+objf.__name__+"\"")  
@@ -406,6 +413,3 @@ def GA(objf,lb,ub,dim,popSize,iters):
     s.objfname=objf.__name__
 
     return s
-         
-    
-    
