@@ -73,7 +73,7 @@ def HHO(objf,lb,ub,dim,SearchAgents_no,Max_iter):
         # Update the location of Harris' hawks 
         for i in range(0,SearchAgents_no):
 
-            E0=2*random.random()-1;  # -1<E0<1
+            E0=2*random.random()-1  # -1<E0<1
             Escaping_Energy=E1*(E0)  # escaping energy of rabbit Eq. (3) in the paper
 
             # -------- Exploration phase Eq. (1) in paper -------------------
@@ -104,7 +104,7 @@ def HHO(objf,lb,ub,dim,SearchAgents_no,Max_iter):
                     X[i,:]=(Rabbit_Location)-Escaping_Energy*abs(Rabbit_Location-X[i,:])
 
                 if r>=0.5 and abs(Escaping_Energy)>=0.5:  # Soft besiege Eq. (4) in paper
-                    Jump_strength=2*(1- random.random()); # random jump strength of the rabbit
+                    Jump_strength=2*(1- random.random()) # random jump strength of the rabbit
                     X[i,:]=(Rabbit_Location-X[i,:])-Escaping_Energy*abs(Jump_strength*Rabbit_Location-X[i,:])
                 
                 #phase 2: --------performing team rapid dives (leapfrog movements)----------
@@ -112,7 +112,7 @@ def HHO(objf,lb,ub,dim,SearchAgents_no,Max_iter):
                 if r<0.5 and abs(Escaping_Energy)>=0.5: # Soft besiege Eq. (10) in paper
                     #rabbit try to escape by many zigzag deceptive motions
                     Jump_strength=2*(1-random.random())
-                    X1=Rabbit_Location-Escaping_Energy*abs(Jump_strength*Rabbit_Location-X[i,:]);
+                    X1=Rabbit_Location-Escaping_Energy*abs(Jump_strength*Rabbit_Location-X[i,:])
 
                     if objf(X1)< fitness: # improved move?
                         X[i,:] = X1.copy()
@@ -133,7 +133,7 @@ def HHO(objf,lb,ub,dim,SearchAgents_no,Max_iter):
                 
         convergence_curve[t]=Rabbit_Energy
         if (t%1==0):
-               print(['At iteration '+ str(t)+ ' the best fitness is '+ str(Rabbit_Energy)]);
+               print(['At iteration '+ str(t)+ ' the best fitness is '+ str(Rabbit_Energy)])
         t=t+1
     
     timerEnd=time.time()  
