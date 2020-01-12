@@ -21,6 +21,8 @@ import benchmarks
 import csv
 import numpy
 import time
+import matplotlib.pyplot as plt
+import os
 
 
 def selector(algo,func_details,popSize,Iter):
@@ -59,7 +61,7 @@ def selector(algo,func_details,popSize,Iter):
     
     
 # Select optimizers
-PSO= False
+PSO= True
 MVO= False
 GWO = False
 MFO = False
@@ -68,10 +70,10 @@ BAT = False
 WOA = False
 FFA = False
 SSA = False
-GA = False
+GA = True
 HHO = False
 SCA = False
-JAYA = True
+JAYA = False
 
 
 # Select benchmark function
@@ -95,6 +97,8 @@ F17=True
 F18=True
 F19=True
 
+plot_convergence = False
+
 
 
 optimizer=[PSO, MVO, GWO, MFO, CS, BAT, WOA, FFA, SSA, GA, HHO, SCA, JAYA]
@@ -103,7 +107,7 @@ benchmarkfunc=[F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12,F13,F14,F15,F16,F17,F18,F1
 # Select number of repetitions for each experiment. 
 # To obtain meaningful statistical results, usually 30 independent runs 
 # are executed for each algorithm.
-NumOfRuns=1
+NumOfRuns=3
 
 # Select general parameters for all optimizers (population size, number of iterations)
 PopulationSize = 500
@@ -116,7 +120,9 @@ Export=True
 #ExportToFile="YourResultsAreHere.csv"
 #Automaticly generated name by date and time
 ExportToFile="experiment"+time.strftime("%Y-%m-%d-%H-%M-%S")+".csv" 
-
+ConvergenceFolder = "experiment"+time.strftime("%Y-%m-%d-%H-%M-%S") + "/"
+if(plot_convergence):
+    os.mkdir(ConvergenceFolder)
 # Check if it works at least once
 Flag=False
 
@@ -130,10 +136,13 @@ for l in range(0,Iterations):
 for i in range (0, len(optimizer)):
     for j in range (0, len(benchmarkfunc)):
         if((optimizer[i]==True) and (benchmarkfunc[j]==True)): # start experiment if an optimizer and an objective function is selected
+            
+            convergence = [0]*NumOfRuns
             for k in range (0,NumOfRuns):
                 
                 func_details=benchmarks.getFunctionDetails(j)
                 x=selector(i,func_details,PopulationSize,Iterations)
+                convergence[k] = x.convergence
                 if(Export==True):
                     with open(ExportToFile, 'a',newline='\n') as out:
                         writer = csv.writer(out,delimiter=',')
@@ -144,6 +153,31 @@ for i in range (0, len(optimizer)):
                         writer.writerow(a)
                     out.close()
                 Flag=True # at least one experiment
+                
+                if(plot_convergence):
+                    # plot fitness progression
+                    allGenerations = [x+1 for x in range(Iterations)]
+                    plt.plot(allGenerations, x.convergence)
+                    plt.title(x.optimizer + ' - ' + x.objfname)
+                    plt.xlabel('Generations')
+                    plt.ylabel('Fitness')
+                    plt.grid()
+                    plt.savefig(ConvergenceFolder + x.optimizer + '-' + x.objfname + '-' + str(k + 1) + ".png")
+                    plt.clf()
+                    #plt.show() 
+                                        
+            if(plot_convergence):
+                avgConvergence = numpy.around(numpy.mean(convergence, axis=0, dtype=numpy.float64), decimals=2).tolist()
+                # plot fitness progression
+                allGenerations = [x+1 for x in range(Iterations)]
+                plt.plot(allGenerations, avgConvergence)
+                plt.title(x.optimizer + ' - ' + x.objfname)
+                plt.xlabel('Generations')
+                plt.ylabel('Fitness')
+                plt.grid()
+                plt.savefig(ConvergenceFolder + x.optimizer + '-' + x.objfname + "-avg.png")
+                plt.clf()
+                #plt.show() 
                 
 if (Flag==False): # Faild to run at least one experiment
     print("No Optomizer or Cost function is selected. Check lists of available optimizers and cost functions") 
