@@ -17,6 +17,7 @@ import GA as ga
 import HHO as hho
 import SCA as sca
 import JAYA as jaya
+import DE as de
 import benchmarks
 import csv
 import numpy
@@ -57,11 +58,13 @@ def selector(algo,func_details,popSize,Iter):
         x=sca.SCA(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     if(algo==12):
         x=jaya.JAYA(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
+    if(algo==13):
+        x=de.DE(getattr(benchmarks, function_name),lb,ub,dim,popSize,Iter)
     return x
     
     
 # Select optimizers
-PSO= True
+PSO= False
 MVO= False
 GWO = False
 MFO = False
@@ -70,10 +73,11 @@ BAT = False
 WOA = False
 FFA = False
 SSA = False
-GA = True
+GA = False
 HHO = False
 SCA = False
 JAYA = False
+DE = True
 
 
 # Select benchmark function
@@ -97,11 +101,11 @@ F17=True
 F18=True
 F19=True
 
-plot_convergence = False
+plot_convergence = True
 
 
 
-optimizer=[PSO, MVO, GWO, MFO, CS, BAT, WOA, FFA, SSA, GA, HHO, SCA, JAYA]
+optimizer=[PSO, MVO, GWO, MFO, CS, BAT, WOA, FFA, SSA, GA, HHO, SCA, JAYA, DE]
 benchmarkfunc=[F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12,F13,F14,F15,F16,F17,F18,F19] 
         
 # Select number of repetitions for each experiment. 
