@@ -74,6 +74,11 @@ Now your experiment is ready to run. Enjoy!
 
 ## List of contributors
 
+## Reference
+For more information about EvoloPy, please refer to our paper: 
+Faris, Hossam, Ibrahim Aljarah, Seyedali Mirjalili, Pedro A. Castillo, and Juan Julián Merelo Guervós. "EvoloPy: An Open-source Nature-inspired Optimization Framework in Python." In IJCCI (ECTA), pp. 171-177. 2016.
+https://www.scitepress.org/Papers/2016/60482/60482.pdf
+
 
 ## Support
 
