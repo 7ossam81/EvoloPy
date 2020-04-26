@@ -20,17 +20,12 @@ def PSO(objf,lb,ub,dim,PopSize,iters):
 
     # PSO parameters
     
-#    dim=30
-#    iters=200
     Vmax=6
-#    PopSize=50     #population size
     wMax=0.9
     wMin=0.2
     c1=2
     c2=2
-#    lb=-10
-#    ub=10
-#    
+
     s=solution()
     if not isinstance(lb, list):
         lb = [lb] * dim
