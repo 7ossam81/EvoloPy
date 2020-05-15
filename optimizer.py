@@ -169,5 +169,6 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
 
     if (Flag==False): # Faild to run at least one experiment
         print("No Optomizer or Cost function is selected. Check lists of available optimizers and cost functions") 
-            
+                
+    print("Execution completed") 
             
