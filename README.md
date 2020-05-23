@@ -67,6 +67,13 @@ Now your experiment is ready to run. Enjoy!
 - Issue Tracker: https://github.com/7ossam81/EvoloPy/issues  
 - Source Code: https://github.com/7ossam81/EvoloPy
 
+## Usefull Links
+- Video Demo:https://www.youtube.com/watch?v=8t10SyrhDjQ
+- Paper source: https://github.com/7ossam81/EvoloPy
+- Paper: https://www.scitepress.org/Papers/2016/60482/60482.pdf
+- Poster source: https://github.com/7ossam81/EvoloPy-poster
+- Live Demo: http://evo-ml.com/evolopy-live-demo/
+
 ## List of contributors
 
 ## Reference
