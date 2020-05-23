@@ -64,16 +64,22 @@ def GWO(objf,lb,ub,dim,SearchAgents_no,Max_iter):
             
             # Update Alpha, Beta, and Delta
             if fitness<Alpha_score :
+                Delta_score=Beta_score  # Update delte
+                Delta_pos=Beta_pos.copy()
+                Beta_score=Alpha_score  # Update beta
+                Beta_pos=Alpha_pos.copy()
                 Alpha_score=fitness; # Update alpha
                 Alpha_pos=Positions[i,:].copy()
             
             
             if (fitness>Alpha_score and fitness<Beta_score ):
+                Delta_score=Beta_score  # Update delte
+                Delta_pos=Beta_pos.copy()
                 Beta_score=fitness  # Update beta
                 Beta_pos=Positions[i,:].copy()
             
             
-            if (fitness>Alpha_score and fitness>Beta_score and fitness<Delta_score): 
+            if (fitness>Alpha_score and fitness>Beta_score and fitness<Delta_score):                 
                 Delta_score=fitness # Update delta
                 Delta_pos=Positions[i,:].copy()
             
