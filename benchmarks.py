@@ -185,8 +185,35 @@ def F23(L):
     o=fit.item(0);
     return o  
 
-def getFunctionDetails(a):
-    
+# ESAs space mission design benchmarks https://www.esa.int/gsp/ACT/projects/gtop/
+
+from fcmaes.astro import MessFull, Messenger, Gtoc1, Cassini1, Cassini2, Rosetta, Tandem, Sagas
+
+def Ca1(x):
+    return Cassini1().fun(x)
+
+def Ca2(x):
+    return Cassini2().fun(x)
+
+def Ros(x):
+    return Rosetta().fun(x)
+
+def Tan(x):
+    return Tandem(5).fun(x)
+
+def Sag(x):
+    return Sagas().fun(x)
+
+def Mef(x):
+    return MessFull().fun(x)
+
+def Mes(x):
+    return Messenger().fun(x)
+
+def Gt1(x):
+    return Gtoc1().fun(x)
+
+def getFunctionDetails(a):    
     # [name, lb, ub, dim]
     param = {  "F1": ["F1",-100,100,30],
                "F2" : ["F2",-10,10,30],
@@ -211,8 +238,15 @@ def getFunctionDetails(a):
                "F21" : ["F21",0,10,4],
                "F22" : ["F22",0,10,4],
                "F23" : ["F23",0,10,4],
+               "Ca1" : ["Ca1",Cassini1().bounds.lb,Cassini1().bounds.ub,len(Cassini1().bounds.lb)],
+               "Ca2" : ["Ca2",Cassini2().bounds.lb,Cassini2().bounds.ub,len(Cassini2().bounds.lb)],
+               "Gt1" : ["Gt1",Gtoc1().bounds.lb,Gtoc1().bounds.ub,len(Gtoc1().bounds.lb)],
+               "Mes" : ["Mes",Messenger().bounds.lb,Messenger().bounds.ub,len(Messenger().bounds.lb)],
+               "Mef" : ["Mef",MessFull().bounds.lb,MessFull().bounds.ub,len(MessFull().bounds.lb)],
+               "Sag" : ["Sag",Sagas().bounds.lb,Sagas().bounds.ub,len(Sagas().bounds.lb)],
+               "Tan" : ["Tan",Tandem(5).bounds.lb,Tandem(5).bounds.ub,len(Tandem(5).bounds.lb)],
+               "Ros" : ["Ros",Rosetta().bounds.lb,Rosetta().bounds.ub,len(Rosetta().bounds.lb)],
             }
     return param.get(a, "nothing")
-
 
 
