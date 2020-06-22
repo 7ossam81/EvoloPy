@@ -113,21 +113,25 @@ def HHO(objf,lb,ub,dim,SearchAgents_no,Max_iter):
                     #rabbit try to escape by many zigzag deceptive motions
                     Jump_strength=2*(1-random.random())
                     X1=Rabbit_Location-Escaping_Energy*abs(Jump_strength*Rabbit_Location-X[i,:])
+                    X1 = numpy.clip(X1, lb, ub)
 
                     if objf(X1)< fitness: # improved move?
                         X[i,:] = X1.copy()
                     else: # hawks perform levy-based short rapid dives around the rabbit
                         X2=Rabbit_Location-Escaping_Energy*abs(Jump_strength*Rabbit_Location-X[i,:])+numpy.multiply(numpy.random.randn(dim),Levy(dim))
+                        X2 = numpy.clip(X2, lb, ub)
                         if objf(X2)< fitness:
                             X[i,:] = X2.copy()
                 if r<0.5 and abs(Escaping_Energy)<0.5:   # Hard besiege Eq. (11) in paper
                      Jump_strength=2*(1-random.random())
                      X1=Rabbit_Location-Escaping_Energy*abs(Jump_strength*Rabbit_Location-X.mean(0))
+                     X1 = numpy.clip(X1, lb, ub)
                      
                      if objf(X1)< fitness: # improved move?
                         X[i,:] = X1.copy()
                      else: # Perform levy-based short rapid dives around the rabbit
                          X2=Rabbit_Location-Escaping_Energy*abs(Jump_strength*Rabbit_Location-X.mean(0))+numpy.multiply(numpy.random.randn(dim),Levy(dim))
+                         X2 = numpy.clip(X2, lb, ub)
                          if objf(X2)< fitness:
                             X[i,:] = X2.copy()
                 
