@@ -3,3 +3,4 @@ SciPy
 sklearn
 pandas
 matplotlib
+fcmaes
