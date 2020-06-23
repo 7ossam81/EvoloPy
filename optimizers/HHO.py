@@ -33,9 +33,14 @@ def HHO(objf,lb,ub,dim,SearchAgents_no,Max_iter):
     Rabbit_Location=numpy.zeros(dim)
     Rabbit_Energy=float("inf")  #change this to -inf for maximization problems
     
-    
+    if not isinstance(lb, list):
+        lb = [lb for _ in range(dim)]
+        ub = [ub for _ in range(dim)]
+    lb = numpy.asarray(lb)
+    ub = numpy.asarray(ub)
+         
     #Initialize the locations of Harris' hawks
-    X=numpy.random.uniform(0,1,(SearchAgents_no,dim)) *(ub-lb)+lb
+    X=numpy.asarray([x*(ub-lb)+lb for x in numpy.random.uniform(0,1,(SearchAgents_no, dim))])
     
     #Initialize convergence
     convergence_curve=numpy.zeros(Max_iter)
