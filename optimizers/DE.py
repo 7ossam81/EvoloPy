@@ -7,11 +7,11 @@ from solution import solution
 # Differential Evolution (DE)
 # mutation factor = [0.5, 2]
 # crossover_ratio = [0,1]
-def DE(objf,lb,ub,dim,PopSize,iters):
-    
-    mutation_factor=0.5
-    crossover_ratio=0.7
-    stopping_func=None
+def DE(objf, lb, ub, dim, PopSize, iters):
+
+    mutation_factor = 0.5
+    crossover_ratio = 0.7
+    stopping_func = None
 
     # convert lb, ub to array
     if not isinstance(lb, list):
@@ -20,7 +20,7 @@ def DE(objf,lb,ub,dim,PopSize,iters):
 
     # solution
     s = solution()
-    
+
     s.best = float("inf")
 
     # initialize population
@@ -42,20 +42,20 @@ def DE(objf,lb,ub,dim,PopSize,iters):
     for i in range(PopSize):
         fitness = objf(population[i, :])
         population_fitness[p] = fitness
-        #s.func_evals += 1
+        # s.func_evals += 1
 
         # is leader ?
         if fitness < s.best:
             s.best = fitness
             s.leader_solution = population[i, :]
 
-    convergence_curve=numpy.zeros(iters)
+    convergence_curve = numpy.zeros(iters)
     # start work
-    print("DE is optimizing  \""+objf.__name__+"\"")    
-    
-    timerStart=time.time() 
-    s.startTime=time.strftime("%Y-%m-%d-%H-%M-%S")
-    
+    print('DE is optimizing  "' + objf.__name__ + '"')
+
+    timerStart = time.time()
+    s.startTime = time.strftime("%Y-%m-%d-%H-%M-%S")
+
     t = 0
     while t < iters:
         # should i stop
@@ -67,12 +67,14 @@ def DE(objf,lb,ub,dim,PopSize,iters):
             # 1. Mutation
 
             # select 3 random solution except current solution
-            ids_except_current = [_ for _ in  range(PopSize) if _ != i]
+            ids_except_current = [_ for _ in range(PopSize) if _ != i]
             id_1, id_2, id_3 = random.sample(ids_except_current, 3)
 
             mutant_sol = []
             for d in range(dim):
-                d_val = population[id_1, d] + mutation_factor * (population[id_2, d] - population[id_3, d])
+                d_val = population[id_1, d] + mutation_factor * (
+                    population[id_2, d] - population[id_3, d]
+                )
 
                 # 2. Recombination
                 rn = random.uniform(0, 1)
@@ -89,7 +91,7 @@ def DE(objf,lb,ub,dim,PopSize,iters):
 
             # calc fitness
             mutant_fitness = objf(mutant_sol)
-            #s.func_evals += 1
+            # s.func_evals += 1
 
             # replace if mutant_fitness is better
             if mutant_fitness < population_fitness[i]:
@@ -101,19 +103,21 @@ def DE(objf,lb,ub,dim,PopSize,iters):
                     s.best = mutant_fitness
                     s.leader_solution = mutant_sol
 
-        convergence_curve[t]=s.best
-        if (t%1==0):
-               print(['At iteration '+ str(t+1)+ ' the best fitness is '+ str(s.best)]);
+        convergence_curve[t] = s.best
+        if t % 1 == 0:
+            print(
+                ["At iteration " + str(t + 1) + " the best fitness is " + str(s.best)]
+            )
 
         # increase iterations
         t = t + 1
-        
-        timerEnd=time.time()  
-        s.endTime=time.strftime("%Y-%m-%d-%H-%M-%S")
-        s.executionTime=timerEnd-timerStart
-        s.convergence=convergence_curve
-        s.optimizer="DE"
-        s.objfname=objf.__name__
+
+        timerEnd = time.time()
+        s.endTime = time.strftime("%Y-%m-%d-%H-%M-%S")
+        s.executionTime = timerEnd - timerStart
+        s.convergence = convergence_curve
+        s.optimizer = "DE"
+        s.objfname = objf.__name__
 
     # return solution
     return s
