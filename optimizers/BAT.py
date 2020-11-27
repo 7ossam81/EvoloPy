@@ -58,9 +58,10 @@ def BAT(objf, lb, ub, dim, N, Max_iteration):
     for i in range(0, n):
         Fitness[i] = objf(Sol[i, :])
 
-    # Find the initial best solution
+    # Find the initial best solution and minimum fitness
     I = numpy.argmin(Fitness)
     best = Sol[I, :]
+    fmin = min(Fitness)
 
     # Main loop
     for t in range(0, N_gen):
