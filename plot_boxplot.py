@@ -48,7 +48,7 @@ def run(results_directory, optimizer, objectivefunc, Iterations):
         plt.legend(
             handles=box["boxes"],
             labels=optimizer,
-            loc="top right",
+            loc="upper right",
             bbox_to_anchor=(1.2, 1.02),
         )
         fig_name = results_directory + "/boxplot-" + objective_name + ".png"
