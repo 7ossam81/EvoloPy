@@ -276,7 +276,7 @@ def F21(L):
     aSH = numpy.asarray(aSH)
     cSH = numpy.asarray(cSH)
     fit = 0
-    for i in range(0, 4):
+    for i in range(5):
         v = numpy.matrix(L - aSH[i, :])
         fit = fit - ((v) * (v.T) + cSH[i]) ** (-1)
     o = fit.item(0)
@@ -300,7 +300,7 @@ def F22(L):
     aSH = numpy.asarray(aSH)
     cSH = numpy.asarray(cSH)
     fit = 0
-    for i in range(0, 6):
+    for i in range(7):
         v = numpy.matrix(L - aSH[i, :])
         fit = fit - ((v) * (v.T) + cSH[i]) ** (-1)
     o = fit.item(0)
@@ -324,15 +324,43 @@ def F23(L):
     aSH = numpy.asarray(aSH)
     cSH = numpy.asarray(cSH)
     fit = 0
-    for i in range(0, 9):
+    for i in range(10):
         v = numpy.matrix(L - aSH[i, :])
         fit = fit - ((v) * (v.T) + cSH[i]) ** (-1)
     o = fit.item(0)
     return o
 
+def getFunctionDetails(a):
+    # [name, lb, ub, dim]
+    param = {
+        "F1": ["F1", -100, 100, 30],
+        "F2": ["F2", -10, 10, 30],
+        "F3": ["F3", -100, 100, 30],
+        "F4": ["F4", -100, 100, 30],
+        "F5": ["F5", -30, 30, 30],
+        "F6": ["F6", -100, 100, 30],
+        "F7": ["F7", -1.28, 1.28, 30],
+        "F8": ["F8", -500, 500, 30],
+        "F9": ["F9", -5.12, 5.12, 30],
+        "F10": ["F10", -32, 32, 30],
+        "F11": ["F11", -600, 600, 30],
+        "F12": ["F12", -50, 50, 30],
+        "F13": ["F13", -50, 50, 30],
+        "F14": ["F14", -65.536, 65.536, 2],
+        "F15": ["F15", -5, 5, 4],
+        "F16": ["F16", -5, 5, 2],
+        "F17": ["F17", -5, 15, 2],
+        "F18": ["F18", -2, 2, 2],
+        "F19": ["F19", 0, 1, 3],
+        "F20": ["F20", 0, 1, 6],
+        "F21": ["F21", 0, 10, 4],
+        "F22": ["F22", 0, 10, 4],
+        "F23": ["F23", 0, 10, 4],
+    }
+    return param.get(a, "nothing")
 
+'''
 # ESAs space mission design benchmarks https://www.esa.int/gsp/ACT/projects/gtop/
-
 from fcmaes.astro import (
     MessFull,
     Messenger,
@@ -343,39 +371,22 @@ from fcmaes.astro import (
     Tandem,
     Sagas,
 )
-
-
 def Ca1(x):
     return Cassini1().fun(x)
-
-
 def Ca2(x):
     return Cassini2().fun(x)
-
-
 def Ros(x):
     return Rosetta().fun(x)
-
-
 def Tan(x):
     return Tandem(5).fun(x)
-
-
 def Sag(x):
     return Sagas().fun(x)
-
-
 def Mef(x):
     return MessFull().fun(x)
-
-
 def Mes(x):
     return Messenger().fun(x)
-
-
 def Gt1(x):
     return Gtoc1().fun(x)
-
 
 def getFunctionDetails(a):
     # [name, lb, ub, dim]
@@ -443,3 +454,4 @@ def getFunctionDetails(a):
         ],
     }
     return param.get(a, "nothing")
+'''

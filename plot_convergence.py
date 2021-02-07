@@ -24,7 +24,7 @@ def run(results_directory, optimizer, objectivefunc, Iterations):
             plt.plot(allGenerations, row.values.tolist()[0], label=optimizer_name)
         plt.xlabel("Iterations")
         plt.ylabel("Fitness")
-        plt.legend(loc="top right", bbox_to_anchor=(1.2, 1.02))
+        plt.legend(loc="upper right", bbox_to_anchor=(1.2, 1.02))
         plt.grid()
         fig_name = results_directory + "/convergence-" + objective_name + ".png"
         plt.savefig(fig_name, bbox_inches="tight")
