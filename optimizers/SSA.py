@@ -1,3 +1,10 @@
+"""
+Salp Swarm Algorithm
+
+Author: Hossam Faris
+
+"""
+
 import random
 import numpy
 import math
@@ -7,11 +14,6 @@ import time
 
 def SSA(objf, lb, ub, dim, N, Max_iteration):
 
-    # Max_iteration=1000
-    # lb=-100
-    # ub=100
-    # dim=30
-    N = 50  # Number of search agents
     if not isinstance(lb, list):
         lb = [lb] * dim
     if not isinstance(ub, list):

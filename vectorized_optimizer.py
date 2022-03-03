@@ -3,23 +3,17 @@
 Created on Tue May 17 15:50:25 2016
 
 @author: hossam
+
+Vectorized by: AmirPouya Hemmasian
+
 """
 from pathlib import Path
-import optimizers.PSO as pso
-import optimizers.MVO as mvo
-import optimizers.GWO as gwo
-import optimizers.MFO as mfo
-import optimizers.CS as cs
-import optimizers.BAT as bat
-import optimizers.WOA as woa
-import optimizers.FFA as ffa
-import optimizers.SSA as ssa
-import optimizers.GA as ga
-import optimizers.HHO as hho
-import optimizers.SCA as sca
-import optimizers.JAYA as jaya
-import optimizers.DE as de
-import benchmarks
+import vectorized_optimizers.GWO as gwo
+import vectorized_optimizers.MFO as mfo
+import vectorized_optimizers.WOA as woa
+import vectorized_optimizers.SSA as ssa
+import vectorized_optimizers.SCA as sca
+import vectorized_benchmarks as benchmarks
 import csv
 import numpy
 import time
@@ -39,36 +33,17 @@ def selector(algo, func_details, popSize, Iter):
 
     if algo == "SSA":
         x = ssa.SSA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "PSO":
-        x = pso.PSO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "GA":
-        x = ga.GA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "BAT":
-        x = bat.BAT(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "FFA":
-        x = ffa.FFA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "GWO":
         x = gwo.GWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "WOA":
         x = woa.WOA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "MVO":
-        x = mvo.MVO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "MFO":
         x = mfo.MFO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "CS":
-        x = cs.CS(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "HHO":
-        x = hho.HHO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "SCA":
         x = sca.SCA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "JAYA":
-        x = jaya.JAYA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
-    elif algo == "DE":
-        x = de.DE(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     else:
         return None
     return x
-
 
 def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
 
