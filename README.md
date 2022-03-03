@@ -1,8 +1,8 @@
-<div align="center">
-<img alt="EvoCluster-logo" src="http://evo-ml.com/wp-content/uploads/2021/06/EvoloPy-logo.png" width=80%>
-</div>
+# VecMetaPy: A vectorized framework for metaheuristic optimization in Python
+Paper: https://doi.org/10.1016/j.advengsoft.2022.103092
+VecMetaPy is an efficient version of EvoloPy, with vectorized implementation of the 23 benchmark functions and the five algorithms. The guidelines to use VecMetaPy are exactly the same as EvoloPy, with the only difference of using vectorized_optimizer.py instead of optimizer.py. You can find more in the VecMetaPy.ipynb notebook. 
 
-# EvoloPy: An open source nature-inspired optimization toolbox for global optimization in Python
+## EvoloPy: An open source nature-inspired optimization toolbox for global optimization in Python
 
 The EvoloPy toolbox provides classical and recent nature-inspired metaheuristic for the global optimization. The list of optimizers that have been implemented includes Particle Swarm Optimization (PSO), Multi-Verse Optimizer (MVO), Grey Wolf Optimizer (GWO), and Moth Flame Optimization (MFO). The full list of implemented optimizers is available here https://github.com/7ossam81/EvoloPy/wiki/List-of-optimizers
 
