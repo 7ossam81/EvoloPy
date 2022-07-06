@@ -98,4 +98,5 @@ Please include the following related citations:
 
 Use the [issue tracker](https://github.com/7ossam81/EvoloPy/issues). 
 
+If you like our framework then we would really appreciate **a Star ⭐!**
 
