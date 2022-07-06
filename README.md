@@ -6,6 +6,8 @@
 
 The EvoloPy toolbox provides classical and recent nature-inspired metaheuristic for the global optimization. The list of optimizers that have been implemented includes Particle Swarm Optimization (PSO), Multi-Verse Optimizer (MVO), Grey Wolf Optimizer (GWO), and Moth Flame Optimization (MFO). The full list of implemented optimizers is available here https://github.com/7ossam81/EvoloPy/wiki/List-of-optimizers
 
+If you like our framework then we would really appreciate **a Star ⭐!**
+
 
 ## Features
 - Six nature-inspired metaheuristic optimizers were implemented.
@@ -98,5 +100,4 @@ Please include the following related citations:
 
 Use the [issue tracker](https://github.com/7ossam81/EvoloPy/issues). 
 
-If you like our framework then we would really appreciate **a Star ⭐!**
 
