@@ -133,6 +133,7 @@ def FFA(objf, lb, ub, dim, n, MaxGeneration):
     s.executionTime = timerEnd - timerStart
     s.convergence = convergence
     s.optimizer = "FFA"
+    s.bestIndividual = nbest
     s.objfname = objf.__name__
 
     return s

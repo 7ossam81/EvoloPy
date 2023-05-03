@@ -112,6 +112,7 @@ def JAYA(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s.executionTime = timerEnd - timerStart
     s.convergence = Convergence_curve
     s.optimizer = "JAYA"
+    s.bestIndividual = Best_pos
     s.objfname = objf.__name__
 
     return s

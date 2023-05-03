@@ -139,13 +139,13 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
                             Flag_details == False
                         ):  # just one time to write the header of the CSV file
                             header = numpy.concatenate(
-                                [["Optimizer", "objfname", "ExecutionTime"], CnvgHeader]
+                                [["Optimizer", "objfname", "ExecutionTime", "Individual"], CnvgHeader]
                             )
                             writer.writerow(header)
                             Flag_details = True  # at least one experiment
                         executionTime[k] = x.executionTime
                         a = numpy.concatenate(
-                            [[x.optimizer, x.objfname, x.executionTime], x.convergence]
+                            [[x.optimizer, x.objfname, x.executionTime, x.bestIndividual], x.convergence]
                         )
                         writer.writerow(a)
                     out.close()

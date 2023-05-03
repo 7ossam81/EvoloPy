@@ -162,6 +162,7 @@ def MVO(objf, lb, ub, dim, N, Max_time):
     s.executionTime = timerEnd - timerStart
     s.convergence = convergence
     s.optimizer = "MVO"
+    s.bestIndividual = Best_universe
     s.objfname = objf.__name__
 
     return s
