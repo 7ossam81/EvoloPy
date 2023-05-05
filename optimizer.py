@@ -19,6 +19,7 @@ import optimizers.HHO as hho
 import optimizers.SCA as sca
 import optimizers.JAYA as jaya
 import optimizers.DE as de
+import optimizers.AAA as aaa
 import benchmarks
 import csv
 import numpy
@@ -65,6 +66,8 @@ def selector(algo, func_details, popSize, Iter):
         x = jaya.JAYA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "DE":
         x = de.DE(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "AAA":
+        x = aaa.AAA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     else:
         return null
     return x
