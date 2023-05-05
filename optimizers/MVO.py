@@ -37,18 +37,32 @@ def randk(t):
     return s
 
 
+# def RouletteWheelSelection(weights):
+#     accumulation = numpy.cumsum(weights)
+#     p = random.random() * accumulation[-1]
+#     chosen_index = -1
+#     for index in range(0, len(accumulation)):
+#         if accumulation[index] > p:
+#             chosen_index = index
+#             break
+#
+#     choice = chosen_index
+#
+#     return choice
+
+
 def RouletteWheelSelection(weights):
+
     accumulation = numpy.cumsum(weights)
     p = random.random() * accumulation[-1]
-    chosen_index = -1
+
+    # Because weights is a negative number, use "<"
     for index in range(0, len(accumulation)):
-        if accumulation[index] > p:
-            chosen_index = index
-            break
-
-    choice = chosen_index
-
-    return choice
+        if (accumulation[index] < p):
+            # -1 -2 -3 -4
+            # -1 -3 -6 -10
+            # Reverse selection interval  When the last interval is selected, the first interval is returned
+            return len(accumulation) - 1 - index
 
 
 def MVO(objf, lb, ub, dim, N, Max_time):
