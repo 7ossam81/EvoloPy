@@ -81,7 +81,7 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
                 Delta_score = fitness  # Update delta
                 Delta_pos = Positions[i, :].copy()
 
-        a = 2 - l * ((2) / Max_iter)
+        a = 2 - (l**2) * ((2) / Max_iter)**2
         # a decreases linearly fron 2 to 0
 
         # Update the Position of search agents including omegas
