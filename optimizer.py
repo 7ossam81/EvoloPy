@@ -168,9 +168,7 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
                     avgConvergence = numpy.around(
                         numpy.mean(convergence, axis=0, dtype=numpy.float64), decimals=2
                     ).tolist()
-                    a = numpy.concatenate(
-                        [[optimizerName, objfname, avgExecutionTime], avgConvergence]
-                    )
+                    a = numpy.array([x.optimizer, x.objfname, x.executionTime, x.bestIndividual] + x.convergence.tolist(), dtype=object)
                     writer.writerow(a)
                 out.close()
 
