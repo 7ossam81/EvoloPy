@@ -1,6 +1,5 @@
 NumPy
 SciPy
-sklearn
+scikit-learn
 pandas
 matplotlib
-fcmaes
