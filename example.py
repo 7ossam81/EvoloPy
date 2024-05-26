@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue May 17 15:50:25 2016
+Created on Sun May 24 15:50:25 2016
 
-@author: hossam
+@author: raneem
 """
 
 from optimizer import run
 
 # Select optimizers
 # "SSA","PSO","GA","BAT","FFA","GWO","WOA","MVO","MFO","CS","HHO","SCA","JAYA","DE"
-optimizer = ["GA", "SSA", "PSO", "GWO"]
+optimizer = ["GA", "PSO", "GWO", "MVO", "WOA"]
 
 # Select benchmark function"
 # "F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","F13","F14","F15","F16","F17","F18","F19"
