@@ -144,9 +144,7 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
                             writer.writerow(header)
                             Flag_details = True  # at least one experiment
                         executionTime[k] = x.executionTime
-                        a = numpy.concatenate(
-                            [[x.optimizer, x.objfname, x.executionTime, x.bestIndividual], x.convergence]
-                        )
+                        a = numpy.array([x.optimizer, x.objfname, x.executionTime, x.bestIndividual] + x.convergence.tolist(), dtype=object)
                         writer.writerow(a)
                     out.close()
 
