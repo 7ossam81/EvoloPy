@@ -1,5 +1,5 @@
 <div align="center">
-<img alt="EvoCluster-logo" src="http://evo-ml.com/wp-content/uploads/2021/06/EvoloPy-logo.png" width=80%>
+<img width="200" alt="EvoloPy-logo" src="https://github.com/user-attachments/assets/496f9a76-1fcc-4e4f-9586-8f327a434134">
 </div>
 
 # EvoloPy: An open source nature-inspired optimization toolbox for global optimization in Python
