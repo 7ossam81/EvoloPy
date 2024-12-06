@@ -352,7 +352,8 @@ def GA(objf, lb, ub, dim, popSize, iters):
 
         # Sort from best to worst
         ga, scores = sortPopulation(ga, scores)
-
+        bestIndividual = ga[0]
+        
         convergence_curve[l] = bestScore
 
         if l % 1 == 0:
