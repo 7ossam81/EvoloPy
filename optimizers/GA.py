@@ -318,7 +318,7 @@ def GA(objf, lb, ub, dim, popSize, iters):
         ub = [ub] * dim
 
     bestIndividual = np.zeros(dim)
-    scores = np.random.uniform(0.0, 1.0, popSize)#raneem
+    scores = np.random.uniform(0.0, 1.0, popSize)
     bestScore = float("inf")
 
     ga = np.zeros((popSize, dim))
