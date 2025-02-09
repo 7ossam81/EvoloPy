@@ -15,6 +15,17 @@ If you like our framework then we would really appreciate **a Star ⭐!**
 - Matrix support using `SciPy`'s package.
 - More optimizers is comming soon.
 
+## New Benchmark Functions
+We have added the following benchmark functions:
+
+1. **Ackley Function** - Tests convergence behavior.
+2. **Rosenbrock Function** - Evaluates valley-following performance.
+3. **Rastrigin Function** - Measures global and local search capabilities.
+4. **Griewank Function** - Analyzes algorithm robustness.
+
+These functions are now available for evaluating optimization algorithms in EvoloPy.
+
+
 ## Installation
 - Python 3.xx is required.
 
