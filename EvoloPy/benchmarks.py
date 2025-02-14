@@ -143,7 +143,7 @@ def F14(x):
     ]
     aS = np.asarray(aS)
     bS = np.zeros(25)
-    v = np.matrix(x)
+    v = np.array(x)
     for i in range(0, 25):
         H = v - aS[:, i]
         bS[i] = np.sum((np.power(H, 6)))
@@ -276,7 +276,7 @@ def F21(L):
     cSH = np.asarray(cSH)
     fit = 0
     for i in range(5):
-        v = np.matrix(L - aSH[i, :])
+        v = np.array(L - aSH[i, :])
         fit = fit - ((v) * (v.T) + cSH[i]) ** (-1)
     o = fit.item(0)
     return o
@@ -300,7 +300,7 @@ def F22(L):
     cSH = np.asarray(cSH)
     fit = 0
     for i in range(7):
-        v = np.matrix(L - aSH[i, :])
+        v = np.array(L - aSH[i, :])
         fit = fit - ((v) * (v.T) + cSH[i]) ** (-1)
     o = fit.item(0)
     return o
@@ -324,7 +324,7 @@ def F23(L):
     cSH = np.asarray(cSH)
     fit = 0
     for i in range(10):
-        v = np.matrix(L - aSH[i, :])
+        v = np.array(L - aSH[i, :])
         fit = fit - ((v) * (v.T) + cSH[i]) ** (-1)
     o = fit.item(0)
     return o
