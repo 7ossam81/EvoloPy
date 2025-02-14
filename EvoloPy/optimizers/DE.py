@@ -1,7 +1,7 @@
 import random
 import numpy
 import time
-from solution import solution
+from EvoloPy.solution import solution
 
 
 # Differential Evolution (DE)

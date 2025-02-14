@@ -8,7 +8,7 @@ import random
 import time
 import sys
 
-from solution import solution
+from EvoloPy.solution import solution
 
 
 def crossoverPopulaton(population, scores, popSize, crossoverProbability, keep):

@@ -15,7 +15,7 @@ Created on Thirsday March 21  2019
 import random
 import numpy
 import math
-from solution import solution
+from EvoloPy.solution import solution
 import time
 
 

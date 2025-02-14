@@ -8,7 +8,7 @@ import math
 import numpy
 import random
 import time
-from solution import solution
+from EvoloPy.solution import solution
 
 
 def BAT(objf, lb, ub, dim, N, Max_iteration):

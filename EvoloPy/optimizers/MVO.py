@@ -11,7 +11,7 @@ import math
 import sklearn
 from numpy import asarray
 from sklearn.preprocessing import normalize
-from solution import solution
+from EvoloPy.solution import solution
 
 
 def normr(Mat):

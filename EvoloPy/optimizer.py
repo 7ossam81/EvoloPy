@@ -5,28 +5,28 @@ Created on Tue May 17 15:50:25 2016
 @author: hossam
 """
 from pathlib import Path
-import optimizers.PSO as pso
-import optimizers.MVO as mvo
-import optimizers.GWO as gwo
-import optimizers.MFO as mfo
-import optimizers.CS as cs
-import optimizers.BAT as bat
-import optimizers.WOA as woa
-import optimizers.FFA as ffa
-import optimizers.SSA as ssa
-import optimizers.GA as ga
-import optimizers.HHO as hho
-import optimizers.SCA as sca
-import optimizers.JAYA as jaya
-import optimizers.DE as de
-import benchmarks
+import EvoloPy.optimizers.PSO as pso
+import EvoloPy.optimizers.MVO as mvo
+import EvoloPy.optimizers.GWO as gwo
+import EvoloPy.optimizers.MFO as mfo
+import EvoloPy.optimizers.CS as cs
+import EvoloPy.optimizers.BAT as bat
+import EvoloPy.optimizers.WOA as woa
+import EvoloPy.optimizers.FFA as ffa
+import EvoloPy.optimizers.SSA as ssa
+import EvoloPy.optimizers.GA as ga
+import EvoloPy.optimizers.HHO as hho
+import EvoloPy.optimizers.SCA as sca
+import EvoloPy.optimizers.JAYA as jaya
+import EvoloPy.optimizers.DE as de
+from EvoloPy import benchmarks
 import csv
 import numpy
 import time
 import warnings
 import os
-import plot_convergence as conv_plot
-import plot_boxplot as box_plot
+from EvoloPy import plot_convergence
+from EvoloPy import plot_boxplot
 
 warnings.simplefilter(action="ignore")
 
@@ -171,10 +171,10 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags):
                 out.close()
 
     if Export_convergence == True:
-        conv_plot.run(results_directory, optimizer, objectivefunc, Iterations)
+        plot_convergence.run(results_directory, optimizer, objectivefunc, Iterations)
 
     if Export_boxplot == True:
-        box_plot.run(results_directory, optimizer, objectivefunc, Iterations)
+        plot_boxplot.run(results_directory, optimizer, objectivefunc, Iterations)
 
     if Flag == False:  # Faild to run at least one experiment
         print(
