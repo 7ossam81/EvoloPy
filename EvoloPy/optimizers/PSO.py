@@ -7,7 +7,7 @@ Created on Sun May 15 22:37:00 2016
 
 import random
 import numpy
-from solution import solution
+from EvoloPy.solution import solution
 import time
 
 

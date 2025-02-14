@@ -1,7 +1,7 @@
 import random
 import numpy
 import math
-from solution import solution
+from EvoloPy.solution import solution
 import time
 
 

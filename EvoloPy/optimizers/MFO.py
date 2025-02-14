@@ -8,7 +8,7 @@ Created on Mon May 16 10:42:18 2016
 import random
 import numpy
 import math
-from solution import solution
+from EvoloPy.solution import solution
 import time
 
 

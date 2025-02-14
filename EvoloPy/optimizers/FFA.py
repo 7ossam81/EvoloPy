@@ -20,7 +20,7 @@ Created on Sun May 29 00:49:35 2016
 import numpy
 import math
 import time
-from solution import solution
+from EvoloPy.solution import solution
 
 
 def alpha_new(alpha, NGen):
