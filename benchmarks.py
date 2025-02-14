@@ -3,6 +3,8 @@
 Created on Tue May 17 12:46:20 2016
 
 @author: Hossam Faris
+
+updated on Sun Feb 9 06:05:50 2025
 """
 
 import numpy
@@ -219,7 +221,7 @@ def F18(L):
     return o
 
 
-# map the inputs to the function blocks
+# map the inumpyuts to the function blocks
 def F19(L):
     aH = [[3, 10, 30], [0.1, 10, 35], [3, 10, 30], [0.1, 10, 35]]
     aH = numpy.asarray(aH)
@@ -331,6 +333,39 @@ def F23(L):
         fit = fit - ((v) * (v.T) + cSH[i]) ** (-1)
     o = fit.item(0)
     return o
+
+# Ackley function (commonly used in optimization)
+def ackley(x):
+    a = 20
+    b = 0.2
+    c = 2 * numpy.pi
+    d = len(x)
+    sum1 = numpy.sum(x**2)
+    sum2 = numpy.sum(numpy.cos(c * x))
+    return -a * numpy.exp(-b * numpy.sqrt(sum1 / d)) - numpy.exp(sum2 / d) + a + numpy.e
+
+# Rosenbrock function (tests convergence)
+def rosenbrock(x):
+    return sum(100.0 * (x[1:] - x[:-1]**2)**2 + (1 - x[:-1])**2)
+
+# Rastrigin function (tests local minima avoidance)
+def rastrigin(x):
+    A = 10
+    return A * len(x) + numpy.sum(x**2 - A * numpy.cos(2 * numpy.pi * x))
+
+# Griewank function (tests exploration)
+def griewank(x):
+    part1 = numpy.sum(x**2) / 4000
+    part2 = numpy.prod(numpy.cos(x / numpy.sqrt(numpy.arange(1, len(x) + 1))))
+    return part1 - part2 + 1
+
+# Add the new functions to the benchmark list
+benchmark_functions = {
+    "ackley": ackley,
+    "rosenbrock": rosenbrock,
+    "rastrigin": rastrigin,
+    "griewank": griewank,
+}
 
 def getFunctionDetails(a):
     # [name, lb, ub, dim]
