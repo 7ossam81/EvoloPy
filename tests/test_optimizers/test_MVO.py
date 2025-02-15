@@ -8,7 +8,7 @@ sys.path.append(base_dir)
 
 import numpy as np
 import pytest
-from EvoloPy.optimizers.PSO import PSO
+from EvoloPy.optimizers.MVO import MVO
 
 @pytest.fixture
 def sample_bounds():
@@ -24,14 +24,14 @@ def sample_objective_function():
         return np.sum(x ** 2)  # Sum of squares (minimized at x=0)
     return objective_function
 
-def test_PSO(sample_objective_function, sample_bounds):
-    """Tests if the PSO algorithm runs correctly and produces a valid output."""
+def test_MVO(sample_objective_function, sample_bounds):
+    """Tests if the MVO algorithm runs correctly and produces a valid output."""
     lb, ub = sample_bounds
     dims = 5  # Number of dimensions
     PopSize = 10  # Population size
     iters = 30  # Number of iterations
 
-    sol = PSO(sample_objective_function, lb, ub, dims, PopSize, iters)
+    sol = MVO(sample_objective_function, lb, ub, dims, PopSize, iters)
 
     assert sol.bestIndividual.shape == (dims,), "Best individual should match input dimensions"
     assert sol.convergence.shape == (iters,), "Convergence curve should match iteration count"
