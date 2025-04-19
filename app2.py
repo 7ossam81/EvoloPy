@@ -37,19 +37,22 @@ def extract_best_values(convergence):
 def main():
     st.title("EvoloPy Optimization GUI ")
     st.sidebar.header("Settings")
-    
+
     # Available optimizers and benchmark functions
-    optimizers = ["BAT", "CS", "DE", "FFA", "GA", "GWO", "HHO", "JAYA", "MFO", "MVO"]
+    optimizers = [
+        "BAT", "CS", "DE", "FFA", "GA", "GWO", "HHO", "JAYA",
+        "MFO", "MVO", "PSO", "SCA", "WOA", "ALO", "SSA", "NMRA"
+    ]
     benchmark_functions = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"]
-    
+
     # Allow selection of multiple optimizers & benchmark functions
     selected_optimizers = st.sidebar.multiselect("Choose Optimizers", optimizers, default=["GA", "DE"])
     selected_functions = st.sidebar.multiselect("Select Benchmark Functions", benchmark_functions, default=["F1", "F2"])
-    
+
     # Population size and iterations input
     pop_size = st.sidebar.number_input("Population Size", min_value=5, max_value=100, value=30)
     iterations = st.sidebar.number_input("Iterations", min_value=10, max_value=1000, value=100)
-    
+
     if st.sidebar.button("Run Optimization"):
         with st.spinner("Running optimization..."):
             results = {}  # Dictionary to store results
@@ -62,10 +65,10 @@ def main():
                         st.error(f"Error with {optimizer} on {function}: {error}")
                     else:
                         results[(optimizer, function)] = result
-            
+
             if results:
                 st.success("Optimization completed!")
-                
+
                 # Display results for each optimizer-function pair
                 for (optimizer, function), result in results.items():
                     st.write(f"## Results for {optimizer} on {function}")
@@ -73,9 +76,7 @@ def main():
 
                     # Compute best (alpha), second best (beta), and third best (gamma)
                     alpha, beta, gamma = extract_best_values(result.convergence)
-                    
-                    # Get best fitness
-                    best_fitness = np.min(result.convergence) if isinstance(result.convergence, np.ndarray) else min(result.convergence)
+
                     st.write("Best Fitness (Alpha):", alpha)
                     st.write("Second Best (Beta):", beta)
                     st.write("Third Best (Gamma):", gamma)
@@ -83,7 +84,7 @@ def main():
 
                     # Compute convergence rate
                     convergence_rates = calculate_convergence_rate(result.convergence)
-                    
+
                     # Create dataframe for plotting
                     df = pd.DataFrame({
                         "Iteration": range(1, len(result.convergence) + 1),
