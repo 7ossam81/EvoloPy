@@ -3,3 +3,4 @@ SciPy
 scikit-learn
 pandas
 matplotlib
+plotly
