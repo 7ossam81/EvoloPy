@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from EvoloPy.optimizer import selector
-from EvoloPy.benchmarks import getFunctionDetails
+from optimizer import selector
+from benchmarks import getFunctionDetails
 
 def run_optimizer(optimizer, function, pop_size, iterations):
     """Runs the selected optimizer and returns the result."""
@@ -39,7 +39,7 @@ def main():
     st.sidebar.header("Settings")
     
     # Available optimizers and benchmark functions
-    optimizers = ["BAT", "CS", "DE", "FFA", "GA", "GWO", "HHO", "JAYA", "MFO", "MVO", "PSO", "SCA", "SFO", "WOA"]
+    optimizers = ["BAT", "CS", "DE", "FFA", "GA", "GWO", "HHO", "JAYA", "MFO", "MVO"]
     benchmark_functions = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"]
     
     # Allow selection of multiple optimizers & benchmark functions
