@@ -7,7 +7,7 @@ import time
 from pathlib import Path
 
 # Get the absolute path to the EvoloPy directory
-base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'EvoloPy'))
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Add the EvoloPy directory to the Python path
 sys.path.append(base_dir)
 
