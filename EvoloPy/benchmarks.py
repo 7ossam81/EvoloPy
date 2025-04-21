@@ -9,120 +9,97 @@ updated on Sun Feb 9 06:05:50 2025
 
 import numpy as np
 import math
+from functools import reduce
+from typing import Union, List, Tuple, Callable
 
-# define the function blocks
+# Define the function blocks - optimized versions
 def prod(it):
-    p = 1
-    for n in it:
-        p *= n
-    return p
-
+    """Optimized product function using reduce"""
+    return reduce(lambda x, y: x * y, it, 1)
 
 def Ufun(x, a, k, m):
-    y = k * ((x - a) ** m) * (x > a) + k * ((-x - a) ** m) * (x < (-a))
-    return y
-
+    """Penalty function"""
+    return k * ((x - a) ** m) * (x > a) + k * ((-x - a) ** m) * (x < (-a))
 
 def F1(x):
-    s = np.sum(x ** 2)
-    return s
-
+    """Sphere function"""
+    return np.sum(x ** 2)
 
 def F2(x):
-    o = sum(abs(x)) + prod(abs(x))
-    return o
-
+    """Sum of absolute and product of absolute values"""
+    return np.sum(np.abs(x)) + prod(np.abs(x))
 
 def F3(x):
-    dim = len(x) + 1
-    o = 0
-    for i in range(1, dim):
-        o = o + (np.sum(x[0:i])) ** 2
-    return o
-
+    """Sum of squared sums"""
+    result = 0
+    for i in range(1, len(x) + 1):
+        result += (np.sum(x[0:i])) ** 2
+    return result
 
 def F4(x):
-    o = max(abs(x))
-    return o
-
+    """Maximum absolute value"""
+    return np.max(np.abs(x))
 
 def F5(x):
+    """Rosenbrock function"""
     dim = len(x)
-    o = np.sum(
-        100 * (x[1:dim] - (x[0 : dim - 1] ** 2)) ** 2 + (x[0 : dim - 1] - 1) ** 2
-    )
-    return o
-
+    return np.sum(100 * (x[1:dim] - (x[0:dim-1] ** 2)) ** 2 + (x[0:dim-1] - 1) ** 2)
 
 def F6(x):
-    o = np.sum(abs((x + 0.5)) ** 2)
-    return o
-
+    """Shifted absolute square function"""
+    return np.sum(np.abs(x + 0.5) ** 2)
 
 def F7(x):
+    """Sum of weighted fourth powers with noise"""
     dim = len(x)
-    w = np.arange(1, dim + 1)  # create an array from 1 to dim
-    o = np.sum(w * (x ** 4)) + np.random.uniform(0, 1)
-    return o
-
+    w = np.arange(1, dim + 1)
+    return np.sum(w * (x ** 4)) + np.random.uniform(0, 1)
 
 def F8(x):
-    o = sum(-x * (np.sin(np.sqrt(abs(x)))))
-    return o
-
+    """Sum of negative products of sine of square root of absolute value"""
+    return np.sum(-x * np.sin(np.sqrt(np.abs(x))))
 
 def F9(x):
+    """Rastrigin function"""
     dim = len(x)
-    o = np.sum(x ** 2 - 10 * np.cos(2 * math.pi * x)) + 10 * dim
-    return o
-
+    return np.sum(x ** 2 - 10 * np.cos(2 * np.pi * x)) + 10 * dim
 
 def F10(x):
+    """Ackley function"""
     dim = len(x)
-    o = (
-        -20 * np.exp(-0.2 * np.sqrt(np.sum(x ** 2) / dim))
-        - np.exp(np.sum(np.cos(2 * math.pi * x)) / dim)
-        + 20
-        + np.exp(1)
-    )
-    return o
-
+    return (-20 * np.exp(-0.2 * np.sqrt(np.sum(x ** 2) / dim)) - 
+            np.exp(np.sum(np.cos(2 * np.pi * x)) / dim) + 
+            20 + np.exp(1))
 
 def F11(x):
+    """Griewank function"""
     dim = len(x)
-    w = [i for i in range(len(x))]
-    w = [i + 1 for i in w]
-    o = np.sum(x ** 2) / 4000 - prod(np.cos(x / np.sqrt(w))) + 1
-    return o
-
+    w = np.arange(1, dim + 1)
+    return np.sum(x ** 2) / 4000 - np.prod(np.cos(x / np.sqrt(w))) + 1
 
 def F12(x):
+    """Penalized function 1"""
     dim = len(x)
-    o = (math.pi / dim) * (
-        10 * ((np.sin(math.pi * (1 + (x[0] + 1) / 4))) ** 2)
-        + np.sum(
-            (((x[: dim - 1] + 1) / 4) ** 2)
-            * (1 + 10 * ((np.sin(math.pi * (1 + (x[1 :] + 1) / 4)))) ** 2)
-        )
-        + ((x[dim - 1] + 1) / 4) ** 2
-    ) + np.sum(Ufun(x, 10, 100, 4))
-    return o
-
+    y = 1 + (x + 1) / 4
+    
+    term1 = 10 * (np.sin(np.pi * y[0])) ** 2
+    term2 = np.sum((y[0:dim-1] - 1) ** 2 * (1 + 10 * (np.sin(np.pi * y[1:dim])) ** 2))
+    term3 = (y[dim-1] - 1) ** 2
+    
+    pi_n = np.pi * dim
+    return (pi_n / 10) * (term1 + term2 + term3) + np.sum(Ufun(x, 10, 100, 4))
 
 def F13(x):
-    if x.ndim==1:
-        x = x.reshape(1,-1)
-
-    o = 0.1 * (
-        (np.sin(3 * np.pi * x[:,0])) ** 2
-        + np.sum(
-            (x[:,:-1] - 1) ** 2
-            * (1 + (np.sin(3 * np.pi * x[:,1:])) ** 2), axis=1
-        )
-        + ((x[:,-1] - 1) ** 2) * (1 + (np.sin(2 * np.pi * x[:,-1])) ** 2)
-    ) + np.sum(Ufun(x, 5, 100, 4))
-    return o
-
+    """Penalized function 2"""
+    if x.ndim == 1:
+        x = x.reshape(1, -1)
+    
+    term1 = (np.sin(3 * np.pi * x[:, 0])) ** 2
+    term2 = np.sum((x[:, :-1] - 1) ** 2 * (1 + (np.sin(3 * np.pi * x[:, 1:])) ** 2), axis=1)
+    term3 = ((x[:, -1] - 1) ** 2) * (1 + (np.sin(2 * np.pi * x[:, -1])) ** 2)
+    
+    result = 0.1 * (term1 + term2 + term3) + np.sum(Ufun(x, 5, 100, 4))
+    return result
 
 def F14(x):
     aS = [

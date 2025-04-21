@@ -18,7 +18,7 @@ def crossoverPopulaton(population, scores, popSize, crossoverProbability, keep):
     Parameters
     ----------
     population : list
-        The list of individuals
+        The list of indiiduals
     scores : list
         The list of fitness values for each individual
     popSize: int
