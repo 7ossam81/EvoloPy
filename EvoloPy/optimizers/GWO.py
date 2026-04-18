@@ -140,6 +140,7 @@ def GWO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s.convergence = Convergence_curve
     s.optimizer = "GWO"
     s.bestIndividual = Alpha_pos
+    s.best_score = Alpha_score
     s.objfname = objf.__name__
 
     return s

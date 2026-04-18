@@ -55,62 +55,39 @@ def run(optimizer_name, objective_func, convergence, directory=""):
                 bbox=dict(facecolor='lightgray', alpha=0.5))
     
     # Save the figure
-    filename = f"{directory}{optimizer_name}_{objective_func}_boxplot.png"
+    filename = f"{directory}boxplot.png"
     plt.savefig(filename, bbox_inches='tight')
     plt.close()
     
     return filename
 
-def generateBoxPlot(optimizers, objectives, fitness_values, directory=""):
+def run_comparison(optimizers, objective_func, all_final_fitness, directory=""):
     """
-    Generate and save boxplot for comparing multiple optimizers on multiple objectives.
-    
-    Parameters:
-        optimizers: List of optimizer names
-        objectives: List of objective function names
-        fitness_values: List of lists of fitness values for each optimizer-objective pair
-        directory: Directory to save the plot (with trailing slash)
+    Generate and save comparative boxplot for multiple optimizers on one function.
     """
-    # Ensure the directory exists
     Path(directory).mkdir(parents=True, exist_ok=True)
-    
-    # Create a boxplot for each objective function
-    for i, obj in enumerate(objectives):
-        plt.figure(figsize=(10, 6))
-        
-        # Extract data for this objective
-        data = []
-        labels = []
-        
-        for j, opt in enumerate(optimizers):
-            if isinstance(fitness_values[j], list):
-                data.append(fitness_values[j])
-                labels.append(opt)
-        
-        # Create boxplot if we have data
-        if data:
-            bp = plt.boxplot(data, patch_artist=True, labels=labels)
-            
-            # Set colors - use different colors for each optimizer
-            colors = ['lightblue', 'lightgreen', 'lightpink', 'lightyellow', 
-                     'lightcyan', 'lightsalmon', 'lightcoral', 'lightgray']
-            
-            for box, color in zip(bp['boxes'], colors[:len(data)]):
-                box.set(color='blue', facecolor=color)
-            
-            plt.setp(bp['medians'], color='red')
-            plt.setp(bp['whiskers'], color='black')
-            plt.setp(bp['fliers'], marker='o', markerfacecolor='red', markersize=4)
-            
-            # Add labels and title
-            plt.ylabel('Final Fitness Value')
-            plt.title(f'Algorithm Comparison on {obj}')
-            plt.xticks(rotation=45)
-            plt.grid(axis='y', linestyle='--', alpha=0.7)
-            
-            # Save the figure
-            filename = f"{directory}comparison_{obj}_boxplot.png"
-            plt.savefig(filename, bbox_inches='tight')
-            plt.close()
-    
-    return directory
+
+    plt.figure(figsize=(10, 6))
+
+    bp = plt.boxplot(all_final_fitness, patch_artist=True, labels=optimizers)
+
+    colors = ['lightblue', 'lightgreen', 'lightpink', 'lightyellow',
+              'lightcyan', 'lightsalmon', 'lightcoral', 'lightgray']
+
+    for box, color in zip(bp['boxes'], colors[:len(all_final_fitness)]):
+        box.set(color='blue', facecolor=color)
+
+    plt.setp(bp['medians'], color='red')
+    plt.setp(bp['whiskers'], color='black')
+    plt.setp(bp['fliers'], marker='o', markerfacecolor='red', markersize=4)
+
+    plt.ylabel('Final Fitness Value')
+    plt.title(f'Algorithm Comparison on {objective_func}')
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+    filename = f"{directory}boxplot.png"
+    plt.savefig(filename, bbox_inches='tight')
+    plt.close()
+
+    return filename

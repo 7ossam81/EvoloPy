@@ -17,7 +17,7 @@ Created on Sun May 29 00:49:35 2016
 #% by Xin-She Yang (Cambridge University) Copyright @2009   %
 #% -------------------------------------------------------- %
 
-import numpy
+import numpy as np
 import math
 import time
 from EvoloPy.solution import solution
@@ -50,19 +50,19 @@ def FFA(objf, lb, ub, dim, n, MaxGeneration):
     if not isinstance(ub, list):
         ub = [ub] * dim
 
-    zn = numpy.ones(n)
+    zn = np.ones(n)
     zn.fill(float("inf"))
 
     # ns(i,:)=Lb+(Ub-Lb).*rand(1,d);
-    ns = numpy.zeros((n, dim))
+    ns = np.zeros((n, dim))
     for i in range(dim):
-        ns[:, i] = numpy.random.uniform(0, 1, n) * (ub[i] - lb[i]) + lb[i]
-    Lightn = numpy.ones(n)
+        ns[:, i] = np.random.uniform(0, 1, n) * (ub[i] - lb[i]) + lb[i]
+    Lightn = np.ones(n)
     Lightn.fill(float("inf"))
 
     # [ns,Lightn]=init_ffa(n,d,Lb,Ub,u0)
 
-    convergence = []
+    convergence = np.zeros(MaxGeneration)
     s = solution()
 
     print('FFA is optimizing  "' + objf.__name__ + '"')
@@ -83,8 +83,8 @@ def FFA(objf, lb, ub, dim, n, MaxGeneration):
 
         # Ranking fireflies by their light intensity/objectives
 
-        Lightn = numpy.sort(zn)
-        Index = numpy.argsort(zn)
+        Lightn = np.sort(zn)
+        Index = np.argsort(zn)
         ns = ns[Index, :]
 
         # Find the current best
@@ -102,22 +102,23 @@ def FFA(objf, lb, ub, dim, n, MaxGeneration):
         scale = []
         for b in range(dim):
             scale.append(abs(ub[b] - lb[b]))
-        scale = numpy.array(scale)
+        scale = np.array(scale)
         for i in range(0, n):
             # The attractiveness parameter beta=exp(-gamma*r)
             for j in range(0, n):
-                r = numpy.sqrt(numpy.sum((ns[i, :] - ns[j, :]) ** 2))
+                r = np.sqrt(np.sum((ns[i, :] - ns[j, :]) ** 2))
                 # r=1
                 # Update moves
                 if Lightn[i] > Lighto[j]:  # Brighter and more attractive
                     beta0 = 1
                     beta = (beta0 - betamin) * math.exp(-gamma * r ** 2) + betamin
-                    tmpf = alpha * (numpy.random.rand(dim) - 0.5) * scale
+                    tmpf = alpha * (np.random.rand(dim) - 0.5) * scale
                     ns[i, :] = ns[i, :] * (1 - beta) + nso[j, :] * beta + tmpf
 
-        # ns=numpy.clip(ns, lb, ub)
+        # ns=np.clip(ns, lb, ub)
 
-        convergence.append(fbest)
+        convergence[k] = fbest
+
 
         IterationNumber = k
         BestQuality = fbest
@@ -134,6 +135,7 @@ def FFA(objf, lb, ub, dim, n, MaxGeneration):
     s.convergence = convergence
     s.optimizer = "FFA"
     s.bestIndividual = nbest
+    s.best_score = BestQuality
     s.objfname = objf.__name__
 
     return s

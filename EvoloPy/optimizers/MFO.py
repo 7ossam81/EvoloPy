@@ -174,6 +174,7 @@ def MFO(objf, lb, ub, dim, N, Max_iteration):
     s.convergence = Convergence_curve
     s.optimizer = "MFO"
     s.bestIndividual = Best_flame_pos
+    s.best_score = Best_flame_score
     s.objfname = objf.__name__
 
     return s

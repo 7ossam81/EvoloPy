@@ -113,6 +113,7 @@ def JAYA(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s.convergence = Convergence_curve
     s.optimizer = "JAYA"
     s.bestIndividual = Best_pos
+    s.best_score = Best_score
     s.objfname = objf.__name__
 
     return s

@@ -5,7 +5,7 @@ Created on Thu May 26 02:00:55 2016
 @author: hossam
 """
 import math
-import numpy
+import numpy as np
 import random
 import time
 from EvoloPy.solution import solution
@@ -33,18 +33,18 @@ def BAT(objf, lb, ub, dim, N, Max_iteration):
     d = dim  # Number of dimensions
 
     # Initializing arrays
-    Q = numpy.zeros(n)  # Frequency
-    v = numpy.zeros((n, d))  # Velocities
-    Convergence_curve = []
+    Q = np.zeros(n)  # Frequency
+    v = np.zeros((n, d))  # Velocities
+    Convergence_curve = np.zeros(N_gen)
 
     # Initialize the population/solutions
-    Sol = numpy.zeros((n, d))
+    Sol = np.zeros((n, d))
     for i in range(dim):
-        Sol[:, i] = numpy.random.rand(n) * (ub[i] - lb[i]) + lb[i]
+        Sol[:, i] = np.random.rand(n) * (ub[i] - lb[i]) + lb[i]
 
-    S = numpy.zeros((n, d))
-    S = numpy.copy(Sol)
-    Fitness = numpy.zeros(n)
+    S = np.zeros((n, d))
+    S = np.copy(Sol)
+    Fitness = np.zeros(n)
 
     # initialize solution for the final results
     s = solution()
@@ -59,7 +59,7 @@ def BAT(objf, lb, ub, dim, N, Max_iteration):
         Fitness[i] = objf(Sol[i, :])
 
     # Find the initial best solution and minimum fitness
-    I = numpy.argmin(Fitness)
+    I = np.argmin(Fitness)
     best = Sol[I, :]
     fmin = min(Fitness)
 
@@ -74,27 +74,27 @@ def BAT(objf, lb, ub, dim, N, Max_iteration):
 
             # Check boundaries
             for j in range(d):
-                Sol[i, j] = numpy.clip(Sol[i, j], lb[j], ub[j])
+                Sol[i, j] = np.clip(Sol[i, j], lb[j], ub[j])
 
             # Pulse rate
             if random.random() > r:
-                S[i, :] = best + 0.001 * numpy.random.randn(d)
+                S[i, :] = best + 0.001 * np.random.randn(d)
 
             # Evaluate new solutions
             Fnew = objf(S[i, :])
 
             # Update if the solution improves
             if (Fnew <= Fitness[i]) and (random.random() < A):
-                Sol[i, :] = numpy.copy(S[i, :])
+                Sol[i, :] = np.copy(S[i, :])
                 Fitness[i] = Fnew
 
             # Update the current best solution
             if Fnew <= fmin:
-                best = numpy.copy(S[i, :])
+                best = np.copy(S[i, :])
                 fmin = Fnew
 
         # update convergence curve
-        Convergence_curve.append(fmin)
+        Convergence_curve[t] = fmin
 
         if t % 1 == 0:
             print(["At iteration " + str(t) + " the best fitness is " + str(fmin)])
@@ -105,6 +105,7 @@ def BAT(objf, lb, ub, dim, N, Max_iteration):
     s.convergence = Convergence_curve
     s.optimizer = "BAT"
     s.bestIndividual = best
+    s.best_score = fmin
     s.objfname = objf.__name__
 
     return s
