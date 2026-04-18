@@ -1,7 +1,7 @@
 """
 Created on Sat May 24 20:18:05 2024
 
-@author: Raneem
+@author: EVOML Research Group
 """
 import numpy as np
 import random
@@ -419,7 +419,7 @@ def GA(objf, lb, ub, dim, popSize, iters):
 
     s.bestIndividual = bestIndividual  # Store the best individual (solution) found during the optimization process
     s.convergence = convergence_curve  # Store the convergence curve (best scores for each iteration)
-    s.best = bestScore
+    s.best_score = bestScore
     s.optimizer = "GA"  # Store the name of the optimization algorithm used (Genetic Algorithm in this case)
     s.objfname = objf.__name__  # Store the name of the objective function being optimized
 

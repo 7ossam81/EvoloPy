@@ -26,9 +26,10 @@ import csv
 import numpy
 import time
 import warnings
-import os
+# import os
 from EvoloPy import plot_convergence
 from EvoloPy import plot_boxplot
+from EvoloPy import plot_bar
 
 warnings.simplefilter(action="ignore")
 
@@ -40,36 +41,36 @@ def selector(algo, func_details, popSize, Iter):
     dim = func_details[3]
 
     if algo == "SSA":
-        x = ssa.SSA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = ssa.SSA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "PSO":
-        x = pso.PSO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = pso.PSO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "GA":
-        x = ga.GA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = ga.GA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "BAT":
-        x = bat.BAT(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = bat.BAT(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "FFA":
-        x = ffa.FFA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = ffa.FFA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "GWO":
-        x = gwo.GWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = gwo.GWO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "WOA":
-        x = woa.WOA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = woa.WOA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "MVO":
-        x = mvo.MVO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = mvo.MVO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "MFO":
-        x = mfo.MFO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = mfo.MFO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "CS":
-        x = cs.CS(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = cs.CS(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "HHO":
-        x = hho.HHO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = hho.HHO(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "SCA":
-        x = sca.SCA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = sca.SCA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "JAYA":
-        x = jaya.JAYA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = jaya.JAYA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "DE":
-        x = de.DE(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+        sol = de.DE(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     else:
         return None
-    return x
+    return sol
 
 
 def get_optimizer_function(algo):
@@ -202,16 +203,22 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags, results_direc
     for l in range(0, Iterations):
         CnvgHeader.append("Iter" + str(l + 1))
 
-    for i in range(0, len(optimizer)):
-        # Create an optimizer-specific results directory
-        optimizer_dir = results_directory + optimizer[i] + "/"
-        Path(optimizer_dir).mkdir(parents=True, exist_ok=True)
+    for j in range(0, len(objectivefunc)):
+        # Create a function-specific results directory
+        func_dir = results_directory + objectivefunc[j] + "/"
+        results_dir = func_dir + "results/"
+        plots_dir = func_dir + "plots/"
         
-        for j in range(0, len(objectivefunc)):
-            # Create a function-specific results directory
-            func_dir = optimizer_dir + objectivefunc[j] + "/"
-            Path(func_dir).mkdir(parents=True, exist_ok=True)
-            
+        Path(results_dir).mkdir(parents=True, exist_ok=True)
+        Path(plots_dir).mkdir(parents=True, exist_ok=True)
+        
+        function_convergence_data = []
+        function_best_scores = []
+
+        for i in range(0, len(optimizer)):
+            optimizer_plot_dir = plots_dir + optimizer[i] + "/"
+            Path(optimizer_plot_dir).mkdir(parents=True, exist_ok=True)
+
             convergence = [0] * NumOfRuns
             executionTime = [0] * NumOfRuns
             
@@ -247,38 +254,35 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags, results_direc
                 
                 # Extract results
                 for k in range(NumOfRuns):
-                    x = parallel_results[k]
-                    convergence[k] = x.convergence
-                    executionTime[k] = x.executionTime
-                    optimizerName = x.optimizer
-                    objfname = x.objfname
+                    sol = parallel_results[k]
+                    convergence[k] = sol.convergence
+                    executionTime[k] = sol.executionTime
+                    optimizerName = sol.optimizer
+                    objfname = sol.objfname
                     
                     # Export detailed results if needed
                     if Export_details:
-                        ExportToFile = func_dir + "detailed_results.csv"
+                        ExportToFile = results_dir + "details.csv"
                         with open(ExportToFile, "a", newline="\n") as out:
                             writer = csv.writer(out, delimiter=",")
-                            if k == 0:  # Write header only once
+                            if out.tell() == 0:  # Write header only if file is empty
                                 header = numpy.concatenate(
-                                    [["Run", "Optimizer", "objfname", "ExecutionTime", "Best", "Individual"], CnvgHeader]
+                                    [["Optimizer", "Run", "ExecutionTime", "BestFitness", "BestIndividual"], CnvgHeader]
                                 )
                                 writer.writerow(header)
                             
-                            # Extract best fitness value
-                            best_fitness = getattr(x, 'best_score', None)
-                            if best_fitness is None:
-                                best_fitness = objf(x.bestIndividual)
+                            a = [
+                                optimizerName,
+                                k + 1,
+                                sol.executionTime,
+                                sol.best_score,
+                                str(sol.bestIndividual)   # stays in ONE CSV cell
+                            ] + sol.convergence.tolist()
                             
-                            a = numpy.concatenate(
-                                [
-                                    [k+1, optimizerName, objfname, x.executionTime, best_fitness, x.bestIndividual],
-                                    x.convergence,
-                                ]
-                            )
                             writer.writerow(a)
                 
                 # Create a solution object to store the best result
-                best_result_idx = numpy.argmin([objf(x.bestIndividual) for x in parallel_results])
+                best_result_idx = numpy.argmin([objf(sol.bestIndividual) for sol in parallel_results])
                 best_result = parallel_results[best_result_idx]
                 sol = solution()
                 sol.optimizer = optimizer[i]
@@ -303,40 +307,36 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags, results_direc
                 
                 for k in range(0, NumOfRuns):
                     func_details = benchmarks.getFunctionDetails(objectivefunc[j])
-                    x = selector(optimizer[i], func_details, PopulationSize, Iterations)
+                    sol = selector(optimizer[i], func_details, PopulationSize, Iterations)
                     
-                    if x is None:  # If the optimizer isn't found
+                    if sol is None:  # If the optimizer isn't found
                         print(f"Error: {optimizer[i]} optimizer is not defined!")
                         continue
 
                     # Store the result for later use
-                    all_run_results.append(x)
+                    all_run_results.append(sol)
                     
-                    convergence[k] = x.convergence
-                    executionTime[k] = x.executionTime
+                    convergence[k] = sol.convergence
+                    executionTime[k] = sol.executionTime
                     
                     # Export detailed results if needed
                     if Export_details:
-                        ExportToFile = func_dir + "detailed_results.csv"
+                        ExportToFile = results_dir + "details.csv"
                         with open(ExportToFile, "a", newline="\n") as out:
                             writer = csv.writer(out, delimiter=",")
-                            if k == 0:  # Write header only once
+                            if out.tell() == 0:  # Write header only if file is empty
                                 header = numpy.concatenate(
-                                    [["Run", "Optimizer", "objfname", "ExecutionTime", "Best", "Individual"], CnvgHeader]
+                                    [["Optimizer", "Run", "ExecutionTime", "BestFitness", "BestIndividual"], CnvgHeader]
                                 )
                                 writer.writerow(header)
-                            
-                            # Extract best fitness value
-                            best_fitness = getattr(x, 'best_score', None)
-                            if best_fitness is None:
-                                best_fitness = getattr(benchmarks, func_details[0])(x.bestIndividual)
-                            
-                            a = numpy.concatenate(
-                                [
-                                    [k+1, x.optimizer, x.objfname, x.executionTime, best_fitness, x.bestIndividual],
-                                    x.convergence,
-                                ]
-                            )
+
+                            a = [
+                                sol.optimizer,
+                                k + 1,
+                                sol.executionTime,
+                                sol.best_score,
+                                str(sol.bestIndividual)   # stays in ONE Excel cell
+                            ] + sol.convergence.tolist()  # expands one value per column
                             writer.writerow(a)
 
                 # Calculate mean execution time
@@ -347,9 +347,7 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags, results_direc
 
                 # Choose the best result from all runs
                 if all_run_results:
-                    fitness_values = [objf(result.bestIndividual) for result in all_run_results]
-                    best_result_idx = numpy.argmin(fitness_values)
-                    best_result = all_run_results[best_result_idx]
+                    best_result = min(all_run_results, key=lambda result: result.best_score)
                 else:
                     # Fallback if no valid results
                     best_result = selector(optimizer[i], func_details, PopulationSize, Iterations)
@@ -373,35 +371,78 @@ def run(optimizer, objectivefunc, NumOfRuns, params, export_flags, results_direc
 
                 all_results.append(sol)
 
+            function_best_scores.append(best_result.best_score)
+
+            if Export:
+                ExportToFile = results_dir + "best.csv"
+                with open(ExportToFile, "a", newline="\n") as out:
+                    writer = csv.writer(out, delimiter=",")
+
+                    if out.tell() == 0:  # Write header only if file is empty
+                        header = ["Optimizer", "ExecutionTime", "BestFitness", "BestIndividual"]
+                        header.extend([f"Iter{i+1}" for i in range(Iterations)])
+                        writer.writerow(header)
+
+                    row_data = [
+                        optimizer[i],
+                        best_result.executionTime,
+                        best_result.convergence[-1],
+                        str(best_result.bestIndividual)
+                    ]
+                    row_data.extend(best_result.convergence.tolist())
+                    writer.writerow(row_data)
+
             # Export average convergence for all runs
             if Export:
-                ExportToFile = func_dir + "avg_results.csv"
+                ExportToFile = results_dir + "avg.csv"
                 with open(ExportToFile, "a", newline="\n") as out:
                     writer = csv.writer(out, delimiter=",")
                     avg_convergence = numpy.mean(convergence, axis=0)
                     std_convergence = numpy.std(convergence, axis=0)
                     avg_execution_time = numpy.mean(executionTime)
                     std_execution_time = numpy.std(executionTime)
-                    
-                    # Write header
-                    header = ["Optimizer", "objfname", "ExecutionTime", "StdExecutionTime"]
-                    header.extend([f"Iter{i+1}" for i in range(Iterations)])
-                    header.extend([f"StdIter{i+1}" for i in range(Iterations)])
-                    writer.writerow(header)
-                    
-                    # Write data
-                    row_data = [optimizer[i], objectivefunc[j], avg_execution_time, std_execution_time]
-                    row_data.extend(avg_convergence)
-                    row_data.extend(std_convergence)
+
+                    if out.tell() == 0:  # Write header only if file is empty
+                        header = ["Optimizer", "AvgExecutionTime", "StdExecutionTime", "AvgBestFitness", "StdBestFitness"]
+                        header.extend([f"AvgIter{i+1}" for i in range(Iterations)])
+                        header.extend([f"StdIter{i+1}" for i in range(Iterations)])
+                        writer.writerow(header)
+
+                    row_data = [optimizer[i], avg_execution_time, std_execution_time, avg_convergence[-1], std_convergence[-1]]
+                    row_data.extend(avg_convergence.tolist())
+                    row_data.extend(std_convergence.tolist())
                     writer.writerow(row_data)
 
             # Generate convergence plots
             if Export_convergence:
-                plot_convergence.run(convergence, optimizer[i], objectivefunc[j], func_dir)
+                plot_convergence.run(convergence, optimizer[i], objectivefunc[j], optimizer_plot_dir)
 
             # Generate box plots
             if Export_boxplot and NumOfRuns > 1:
-                plot_boxplot.run(optimizer[i], objectivefunc[j], convergence, func_dir)
+                plot_boxplot.run(optimizer[i], objectivefunc[j], convergence, optimizer_plot_dir)
+
+            # Store data for comparative plots
+            function_convergence_data.append(convergence)
+
+            # Store data for comparative plots across all optimizers of the same function
+            # function_convergence_data.append(convergence)
+            # function_boxplot_data.append([conv[-1] for conv in convergence])
+
+        if len(function_convergence_data) > 1:
+            comparison_dir = plots_dir + "comparison/"
+            Path(comparison_dir).mkdir(parents=True, exist_ok=True)
+            
+            # Generate comparative plots for all optimizers on the same function
+            if Export_convergence and len(function_convergence_data) > 1:
+                plot_convergence.run_comparison_avg(optimizer, objectivefunc[j], function_convergence_data, comparison_dir)
+                plot_convergence.run_comparison_best(optimizer, objectivefunc[j], function_convergence_data, comparison_dir)
+
+            if Export_boxplot and NumOfRuns > 1 and len(function_convergence_data) > 1:
+                function_boxplot_data = [[conv[-1] for conv in optimizer_runs] for optimizer_runs in function_convergence_data]
+                plot_boxplot.run_comparison(optimizer, objectivefunc[j], function_boxplot_data, comparison_dir)
+
+            if len(function_best_scores) > 1:
+                plot_bar.run(optimizer, objectivefunc[j], function_best_scores, comparison_dir)
 
     # Print the results
     if Export or Export_details:
