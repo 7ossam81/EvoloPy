@@ -10,6 +10,7 @@ class solution:
     def __init__(self):
         self.best = 0
         self.bestIndividual = []
+        self.best_score = 0
         self.convergence = []
         self.optimizer = ""
         self.objfname = ""

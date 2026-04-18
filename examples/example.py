@@ -7,6 +7,31 @@ Created on Sun May 24 15:50:25 2016
 import sys
 import os
 
+"""
+Output structure (per function):
+
+FunctionName/
+    results/
+        details.csv
+        avg.csv
+        best.csv
+    plots/
+        optimizerName/
+            convergence.png
+            boxplot.png
+        optimizerName/
+            convergence.png
+            boxplot.png
+        optimizerName/
+            convergence.png
+            boxplot.png
+        ...
+        comparison/
+            convergence_avg.png
+            convergence_best.png
+            boxplot.png
+"""
+
 # Get the absolute path to the EvoloPy directory
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Add the EvoloPy directory to the Python path
