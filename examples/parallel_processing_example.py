@@ -6,6 +6,14 @@ This script compares execution times of sequential and parallel processing
 for running multiple optimization algorithms on benchmark functions.
 """
 
+import sys
+import os
+
+# Get the absolute path to the EvoloPy directory
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+# Add the EvoloPy directory to the Python path
+sys.path.append(base_dir)
+
 import time
 import numpy as np
 import matplotlib.pyplot as plt
