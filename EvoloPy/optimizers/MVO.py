@@ -163,6 +163,7 @@ def MVO(objf, lb, ub, dim, N, Max_time):
     s.convergence = convergence
     s.optimizer = "MVO"
     s.bestIndividual = Best_universe
+    s.best_score = Best_universe_Inflation_rate
     s.objfname = objf.__name__
 
     return s

@@ -191,7 +191,7 @@ def HHO(objf, lb, ub, dim, SearchAgents_no, Max_iter):
     s.convergence = convergence_curve
     s.optimizer = "HHO"
     s.objfname = objf.__name__
-    s.best = Rabbit_Energy
+    s.best_score = Rabbit_Energy
     s.bestIndividual = Rabbit_Location
 
     return s

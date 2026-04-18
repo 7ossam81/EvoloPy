@@ -120,6 +120,7 @@ def SSA(objf, lb, ub, dim, N, Max_iteration):
     s.convergence = Convergence_curve
     s.optimizer = "SSA"
     s.bestIndividual = FoodPosition
+    s.best_score = FoodFitness
     s.objfname = objf.__name__
 
     return s

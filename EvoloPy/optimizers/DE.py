@@ -21,7 +21,7 @@ def DE(objf, lb, ub, dim, PopSize, iters):
     # solution
     s = solution()
 
-    s.best = float("inf")
+    best_fitness = float("inf")
 
     # initialize population
     population = []
@@ -45,8 +45,8 @@ def DE(objf, lb, ub, dim, PopSize, iters):
         # s.func_evals += 1
 
         # is leader ?
-        if fitness < s.best:
-            s.best = fitness
+        if fitness < best_fitness:
+            best_fitness = fitness
             s.leader_solution = population[i, :]
 
     convergence_curve = numpy.zeros(iters)
@@ -59,7 +59,7 @@ def DE(objf, lb, ub, dim, PopSize, iters):
     t = 0
     while t < iters:
         # should i stop
-        if stopping_func is not None and stopping_func(s.best, s.leader_solution, t):
+        if stopping_func is not None and stopping_func(best_fitness, s.leader_solution, t):
             break
 
         # loop through population
@@ -99,14 +99,14 @@ def DE(objf, lb, ub, dim, PopSize, iters):
                 population_fitness[i] = mutant_fitness
 
                 # update leader
-                if mutant_fitness < s.best:
-                    s.best = mutant_fitness
+                if mutant_fitness < best_fitness:
+                    best_fitness = mutant_fitness
                     s.leader_solution = mutant_sol
 
-        convergence_curve[t] = s.best
+        convergence_curve[t] = best_fitness
         if t % 1 == 0:
             print(
-                ["At iteration " + str(t + 1) + " the best fitness is " + str(s.best)]
+                ["At iteration " + str(t + 1) + " the best fitness is " + str(best_fitness)]
             )
 
         # increase iterations
@@ -118,6 +118,7 @@ def DE(objf, lb, ub, dim, PopSize, iters):
         s.convergence = convergence_curve
         s.optimizer = "DE"
         s.bestIndividual = s.leader_solution
+        s.best_score = best_fitness
         s.objfname = objf.__name__
 
     # return solution
