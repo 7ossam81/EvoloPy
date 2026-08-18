@@ -212,6 +212,7 @@ evolopy --optimizer PSO --function F1 --no-export-boxplot --no-export-details
 | SCA          | Sine Cosine Algorithm            |
 | JAYA         | JAYA Algorithm                   |
 | DE           | Differential Evolution           |
+| SA           | Simulated Annealing              |
 
 ## 🧠 Optimization Algorithms in Detail
 

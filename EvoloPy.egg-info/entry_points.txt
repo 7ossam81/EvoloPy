@@ -1,0 +1,2 @@
+[console_scripts]
+evolopy = EvoloPy.cli:run_cli
