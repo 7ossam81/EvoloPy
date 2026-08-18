@@ -2,4 +2,28 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
- SA/
+
+# Virtual environments
+SA/
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+
+# Build files
+build/
+dist/
+*.egg-info/
+
+# OS files
+.DS_Store
+Thumbs.db
