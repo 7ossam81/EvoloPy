@@ -19,6 +19,7 @@ import EvoloPy.optimizers.HHO as hho
 import EvoloPy.optimizers.SCA as sca
 import EvoloPy.optimizers.JAYA as jaya
 import EvoloPy.optimizers.DE as de
+import EvoloPy.optimizers.MDE as mde
 from EvoloPy import benchmarks
 from EvoloPy.solution import solution
 from EvoloPy.parallel_utils import run_optimizer_parallel, detect_hardware
@@ -68,6 +69,8 @@ def selector(algo, func_details, popSize, Iter):
         sol = jaya.JAYA(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     elif algo == "DE":
         sol = de.DE(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
+    elif algo == "MDE":
+        sol = mde.MDE(getattr(benchmarks, function_name), lb, ub, dim, popSize, Iter)
     else:
         return None
     return sol
@@ -111,6 +114,8 @@ def get_optimizer_function(algo):
         return jaya.JAYA
     elif algo == "DE":
         return de.DE
+    elif algo == "MDE":
+        return mde.MDE
     else:
         return None
 

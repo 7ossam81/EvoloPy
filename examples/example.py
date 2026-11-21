@@ -41,7 +41,7 @@ sys.path.append(base_dir)
 from EvoloPy.optimizer import run
 
 # Select optimizers
-# "SSA","PSO","GA","BAT","FFA","GWO","WOA","MVO","MFO","CS","HHO","SCA","JAYA","DE"
+# "SSA","PSO","GA","BAT","FFA","GWO","WOA","MVO","MFO","CS","HHO","SCA","JAYA","DE","MDE"
 optimizer = ["GA", "PSO", "GWO"]
 
 # Select benchmark function"

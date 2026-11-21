@@ -25,7 +25,7 @@ def get_optimizer_map():
     optimizer_modules = [
         "PSO", "GWO", "MVO", "MFO", "CS", "BAT", 
         "WOA", "FFA", "SSA", "GA", "HHO", "SCA", 
-        "JAYA", "DE"
+        "JAYA", "DE", "MDE"
     ]
     
     for name in optimizer_modules:
