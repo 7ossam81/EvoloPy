@@ -8,11 +8,11 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.6+](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-360/)
 
-EvoloPy is a powerful, easy-to-use optimization library featuring 14 nature-inspired algorithms, performance visualizations, and parallel processing capabilities. Version 4.0 introduces enhanced output organization, better bounds handling, and improved result reporting.
+EvoloPy is a powerful, easy-to-use optimization library featuring 15 nature-inspired algorithms, performance visualizations, and parallel processing capabilities. Version 4.0 introduces enhanced output organization, better bounds handling, and improved result reporting.
 
 ## ✨ Features
 
-- 🔍 **14 Optimizers**: PSO, GWO, MVO, and more
+- 🔍 **15 Optimizers**: PSO, GWO, MVO, and more
 - 🚀 **Parallel Processing**: Multi-core CPU and GPU acceleration (v3.0+) 
 - 📊 **Visualization Tools**: Convergence curves and performance comparisons
 - 🔧 **Simple API**: Consistent interface across all algorithms
@@ -212,6 +212,7 @@ evolopy --optimizer PSO --function F1 --no-export-boxplot --no-export-details
 | SCA          | Sine Cosine Algorithm            |
 | JAYA         | JAYA Algorithm                   |
 | DE           | Differential Evolution           |
+| MDE          | Multi-population based Differential Evolution |
 
 ## 🧠 Optimization Algorithms in Detail
 
@@ -374,6 +375,17 @@ evolopy --optimizer PSO --function F1 --no-export-boxplot --no-export-details
 - **Process**: Creates new candidate solutions by combining existing ones with weighted differences
 - **Strengths**: Effective for continuous function optimization, robust to noise
 - **Ideal For**: Continuous nonlinear, non-differentiable, multimodal optimization problems
+
+### MDE (Multi-population based Differential Evolution)
+- **Inspiration**: Differential evolution with a random multi-population scheme
+- **Year**: 2023
+- **Developer**: Karkinli ([doi:10.1007/s00521-022-07969-w](https://doi.org/10.1007/s00521-022-07969-w))
+- **Key Parameters**:
+  - No algorithm-specific parameters (parameter-free)
+  - Population size: size of the full population (3 x sub-population size N, must be >= 9)
+- **Process**: Keeps a full population of 3N vectors. Each iteration draws N distinct vectors at random as a sub-population, builds trial vectors with a random scale factor, random dx/dy difference vectors and a random crossover map plus a small noise term, re-samples out-of-bounds variables inside the bounds and keeps a trial only if it improves its parent. One iteration costs N = population_size // 3 function evaluations.
+- **Strengths**: No control parameters to tune, strong exploration from the random multi-population scheme
+- **Ideal For**: Continuous, multimodal optimization problems and model-fitting tasks
 
 ## 🛠️ How to Optimize Your Own Function
 

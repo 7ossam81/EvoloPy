@@ -21,7 +21,7 @@ from typing import Dict, Callable, Any
 optimizer_modules = [
     "PSO", "GWO", "MVO", "MFO", "CS", "BAT", 
     "WOA", "FFA", "SSA", "GA", "HHO", "SCA", 
-    "JAYA", "DE"
+    "JAYA", "DE", "MDE"
 ]
 
 # Dictionary mapping algorithm names to their functions
